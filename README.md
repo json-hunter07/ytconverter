@@ -1,35 +1,59 @@
 # ytconverter
 
+`ytconverter` is a Python-based project developed by [kaifcodec](https://github.com/kaifcodec) designed to provide a robust tool for converting YouTube videos into various formats. This tool simplifies the process of downloading and converting videos, making it accessible for users who need to handle YouTube content efficiently.
 
-The ultimate small size tool for easily downloading YouTube videos in '.mp3' format or highest resolution video.Just by using python.
+## Features
 
-An Android tool.
-😀
-You just need to install 'python3' and 'git' in your terminal and run the commands below.(*Run step by step)
+- **Video Downloading**: Fetch videos directly from YouTube.
+- **Format Conversion**: Convert downloaded videos into different formats such as MP3, MP4, etc.
+- **Metadata Handling**: Extract and manage metadata associated with YouTube videos.
 
-DON'T COPY THE CODES ⛔
+## Requirements
 
-NO NO.
+- Python 3.x
+- Required Python libraries (listed in `requirements.txt`)
 
-Commands for Termux & Linux;
+## Installation
 
-apt update -y && apt upgrade -y
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/kaifcodec/ytconverter.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd ytconverter
+    ```
+3. Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-pkg install git -y
+## Usage
 
-pkg install python3 -y
+1. Run the main script to start the conversion process:
+    ```bash
+    python main.py
+    ```
+2. Follow the on-screen instructions to input the YouTube URL and choose the desired output format.
 
-git clone https://github.com/kaifcodec/ytconverter.git
+## Contributing
 
-cd ytconverter.py
+Contributions are welcome! Please follow these steps:
 
-python3 ytconverter.py
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add new feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Open a Pull Request.
 
-###############
-FOR GETTING VERSION INFO,
- RUN :
-$ 'python version.py'
+## License
 
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or feedback, please open an issue or contact [kaifcodec](https://github.com/kaifcodec).
 ![Screenshot_20230216-082615](https://user-images.githubusercontent.com/98528577/219256583-944c3679-1221-4941-b486-51216b979dae.png)
 
 ![Screenshot_20230216-082638](https://user-images.githubusercontent.com/98528577/219256609-a9e7b63a-7c4e-4f73-b482-6dbf565d0569.png)
