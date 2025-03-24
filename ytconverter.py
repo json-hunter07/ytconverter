@@ -31,7 +31,7 @@ logo_design_1 = Fore.GREEN + r'''
            {1}/       \\{0}
 '''.format(Fore.GREEN, Fore.WHITE, Fore.RED)
 
-account_sid = 'AC96e5355a479cb6af19612f3dd331994c'
+account_sid = 'AC96355a479cb6af19612f3dd331994c'
 logo_design_2 = '''
 \033[92m
           +hydNNNNdyh+
@@ -51,7 +51,7 @@ logo_design_2 = '''
           MMMMo  oMMMM
           MMMMo  oMMMM
           oNMm-  -mMNs      KAIF_CODEC'''
-auth_token = '46b26022257f42e20e1f99e1c79567d6'
+auth_token = '46b262257f42e20e1f99e1c79567d6'
 logo_design_3 = Fore.RED + r'''
                       ,____
             
@@ -76,7 +76,7 @@ logo_design_3 = Fore.RED + r'''
        (_.-.__.__./  /
 
 '''
-twilio_number = '+15856012490'
+twilio_number = '+156012490'
 logo_design_4 = Fore.GREEN + '''
     .o oOOOOOOOo                                            OOOo
     Ob.OOOOOOOo  OOOo.      oOOo.                      .adOOOOOOO
