@@ -165,9 +165,13 @@ def main_mp4():
         'format': 'best',  # Just to extract info, not download
     }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(url, download=False)
-        formats = info.get('formats', [])
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            formats = info.get('formats', [])
+    except yt_dlp.utils.DownloadError as e:
+        print(f.apply(f"An error occurred: {e}", "/red/bold"))
+        return
 
     # Separate video and audio formats
     video_formats = [f for f in formats if f.get('vcodec') != 'none']
@@ -187,7 +191,7 @@ def main_mp4():
         # Add "(NO AUDIO)" warning in bold red for video-only formats
         audio_warning = "" if has_audio else f.apply(" (NO AUDIO) SO WILL MERGE AUDIO", "/red/bold")
 
-        print(f"[{i+1}] {res} ({ext}) - Format ID: {fmt['format_id']}{audio_warning}")
+        print(f"[{i + 1}] {res} ({ext}) - Format ID: {fmt['format_id']}{audio_warning}")
 
     # User selects a format
     while True:
@@ -208,7 +212,93 @@ def main_mp4():
     audio_format_id = None
     if not has_audio:
         print(f.apply("\nSelected format has NO AUDIO. Finding a matching audio format...\n", "/yellow/bold"))
-        
+
+        # Sort audio formats by bitrate safely (avoid NoneType errors)
+        audio_formats = [a for a in audio_formats if a.get('abr') is not None]  # Remove entries with None bitrate
+        if audio_formats:
+            best_audio = sorted(audio_formats, key=lambda x: int(x.get('abr', 0)), reverse=True)[0]  # Pick highest bitrate audio
+            audio_format_id = best_audio['format_id']
+            print(f.apply(f"Best matching audio format found: Format ID {audio_format_id}", "/cyan/bold"))
+        else:
+            print(f.apply("No suitable audio format found! Downloading video only.", "/red/bold"))
+
+    print(f.apply("\nStarting Download...\n", "/yellow/bold"))
+    time1 = int(time.time())
+
+    destination = "/storage/emulated/0/Download/videos"
+    ydl_opts = {
+        'format': f"{selected_format_id}+{audio_format_id}" if audio_format_id else selected_format_id,
+        'outtmpl': os.path.join(destination, '%(title)s.%(ext)s'),
+        'postprocessors': [{'key': 'FFmpegVideoRemuxer', 'preferedformat': 'mp4'}] if audio_format_id else [],
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        try:
+            ydl.download([url])
+            print(f.apply(" Video has been successfully downloaded.", "/green/bold"))
+        except Exception as e:
+            print(f.apply(f"An error occurred: {e}", "/red/bold"))
+            return def main_mp4():
+    print('\n' + f.apply("Enter the URL of the video you want to download:", "/green/bold"))
+    url = input(">> ")
+
+    # Extract available formats
+    print("\nFetching available resolutions...\n")
+
+    ydl_opts = {
+        'quiet': True,
+        'no_warnings': True,
+        'format': 'best',  # Just to extract info, not download
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+            formats = info.get('formats', [])
+    except yt_dlp.utils.DownloadError as e:
+        print(f.apply(f"An error occurred: {e}", "/red/bold"))
+        return
+
+    # Separate video and audio formats
+    video_formats = [f for f in formats if f.get('vcodec') != 'none']
+    audio_formats = [f for f in formats if f.get('acodec') != 'none' and f.get('vcodec') == 'none']
+
+    if not video_formats:
+        print(f.apply("No downloadable video formats found!", "/red/bold"))
+        return
+
+    # Display available formats
+    print("\nAvailable Resolutions:\n")
+    for i, fmt in enumerate(video_formats):
+        res = fmt.get('resolution', 'Unknown')
+        ext = fmt.get('ext', 'mp4')
+        has_audio = fmt.get('acodec') != 'none'  # Check if format has audio
+
+        # Add "(NO AUDIO)" warning in bold red for video-only formats
+        audio_warning = "" if has_audio else f.apply(" (NO AUDIO) SO WILL MERGE AUDIO", "/red/bold")
+
+        print(f"[{i + 1}] {res} ({ext}) - Format ID: {fmt['format_id']}{audio_warning}")
+
+    # User selects a format
+    while True:
+        try:
+            choice = int(input("\nEnter the number of your preferred resolution: ")) - 1
+            if 0 <= choice < len(video_formats):
+                selected_format = video_formats[choice]
+                break
+            else:
+                print(f.apply("Invalid choice. Try again.", "/red/bold"))
+        except ValueError:
+            print(f.apply("Enter a valid number.", "/red/bold"))
+
+    selected_format_id = selected_format['format_id']
+    has_audio = selected_format.get('acodec') != 'none'
+
+    # If selected format has no audio, find the best matching audio format
+    audio_format_id = None
+    if not has_audio:
+        print(f.apply("\nSelected format has NO AUDIO. Finding a matching audio format...\n", "/yellow/bold"))
+
         # Sort audio formats by bitrate safely (avoid NoneType errors)
         audio_formats = [a for a in audio_formats if a.get('abr') is not None]  # Remove entries with None bitrate
         if audio_formats:
@@ -235,6 +325,10 @@ def main_mp4():
         except Exception as e:
             print(f.apply(f"An error occurred: {e}", "/red/bold"))
             return
+
+    time2 = int(time.time())
+    ftime = time2 - time1
+    print(f.apply("Taken time to download:", "/cyan/bold"), f.apply(f"{ftime} sec", "/cyan/bold"))
 
     time2 = int(time.time())
     ftime = time2 - time1
