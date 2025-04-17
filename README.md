@@ -23,10 +23,6 @@
     ```bash
     cd ytconverter
     ```
-3. Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
 
 ## Usage
 
