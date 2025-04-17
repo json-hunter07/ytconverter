@@ -4,18 +4,19 @@ import random
 import subprocess as s
 import re
 import json
-from colored import fg, attr
-f = fg(117)  # Colors
-r = fg(1)
-b = attr(0)
 
 try:
+    from colored import fg, attr
+    f = fg(117)  # Colors
+    r = fg(1)
+    b = attr(0)
     import fontstyle as f
     import yt_dlp
 except ImportError:
     print('Installing required packages\n')
     os.system("pip install fontstyle")
     os.system("pip install yt_dlp")
+    os.system("pip install colored")
     os.system("pkg install curl")
     print('\nRun the code again')
     exit()
