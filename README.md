@@ -13,20 +13,34 @@
 - Python 3.x
 - Required Python libraries (listed in `requirements.txt`)
 
-## Installation
+## Installation Termux
 
-1. Clone the repository:
+
+1. Install python and update termux:
+   ```bash
+    pkg update -y && pkg upgrade -y && pkg install python
+    ```
+2. Install git:
+   ```bash
+    pkg install git
+    ```
+3. Install curl :
+   ```bash
+    pkg install curl
+    ```
+
+4. Clone the repository:
     ```bash
     git clone https://github.com/kaifcodec/ytconverter.git
     ```
 
-2. Give storage permission:
+5. Give storage permission:
     ```bash
     termux-setup-storage
     ```
 
     
-4. Navigate to the project directory:
+6. Navigate to the project directory:
     ```bash
     cd ytconverter
     ```
