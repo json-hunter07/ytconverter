@@ -395,7 +395,7 @@ def log_usage(name, num, video_url, video_title, action):
     }
 
     try:
-        res = requests.post("https://trackerapi-production-253e.up.railway.app/log-download",
+        res = requests.post("https://web-production-212e0.up.railway.app/log-download",
                             json=payload,
                             headers={"Content-Type": "application/json"})
 
