@@ -1,9 +1,12 @@
-# ytconverter
 
+# ytconverter
+---
 `ytconverter` is a Python-based project developed by [kaifcodec](https://github.com/kaifcodec) designed to provide a robust tool for converting YouTube videos into various formats. This tool simplifies the process of downloading and converting videos from YouTube.
 
-![Screenshot 1](https://github.com/user-attachments/assets/5e27f2e3-a40d-49dc-87e4-d69ce28d575e)
-![Screenshot 2](https://github.com/user-attachments/assets/8e9d00ce-b698-4b1f-8870-badd5d274442)
+<p align="centre">
+  
+  <img src="https://github.com/user-attachments/assets/3f50727f-0927-4b3b-82fa-729c346e66d1" width="600" height ="500" />
+</p>
 
 ---
 
@@ -45,9 +48,8 @@
 2. Follow the on-screen instructions to input the YouTube URL and choose the desired output format.
 
 ---
-<p align="center">
-  
-  <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" width="400" />
+ <p align="left">
+<img src= "https://github.com/user-attachments/assets/8e9d00ce-b698-4b1f-8870-badd5d274442" width="600" height="600"/>
 </p>
 
 ---
@@ -67,8 +69,12 @@
 - **Metadata Handling**: Extract and manage metadata associated with YouTube videos.
 
 ---
+<p align="center">
+  
+  <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" width="400" />
+</p>
 
-![Code GIF](https://media.giphy.com/media/L1R1tvI9svkIWwpVYr/giphy.gif)
+
 ---
 
 
