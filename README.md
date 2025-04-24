@@ -63,9 +63,17 @@
 
 ---
 
-## Dynamic Stats  
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=kaifcodec&show_icons=true&theme=radical)  
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=kaifcodec&layout=compact&theme=radical)  
+<p align="center">
+  <b>Click on the image below to Watch the demo and installation on YouTube</b>
+  <a href="https://youtu.be/W2Evqs3fqHs" target="_blank">
+    <img src="https://img.youtube.com/vi/W2Evqs3fqHs/hqdefault.jpg" alt="Watch the demo" style="max-width: 100%;">
+  </a>
+</p>
+
+<p align="center">
+  
+</p>
+
 
 ---
 
@@ -104,16 +112,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 For any questions or feedback, please open an issue or contact [kaifcodec](https://github.com/kaifcodec).
 
----
-<p align="center">
-  <b>Watch the demo on YouTube</b>
-  <a href="https://youtu.be/W2Evqs3fqHs" target="_blank">
-    <img src="https://img.youtube.com/vi/W2Evqs3fqHs/hqdefault.jpg" alt="Watch the demo" style="max-width: 100%;">
-  </a>
-</p>
-
-<p align="center">
-  
-</p>
 
 ---
