@@ -153,6 +153,8 @@ def main_title():
 def bio():
     try:
        print(f"{des1}  Version: {current_version}")
+       print(des2)
+       print(des3)
     except:
        print("file: version.json not found in cwd, run update.py")
        print(des1)
