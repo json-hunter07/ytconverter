@@ -1,3 +1,4 @@
+print("Attempting to import required modules")
 import os
 import random
 import subprocess as s
@@ -227,7 +228,7 @@ def main_mp4():
     title_test = info.get("title", "Unknown title")
 
     ###############
-    log_usage(name, num, url, title_test, 'video')
+    log_usage(name, num, url, title_test, 'video', current_version)
     ###############
     # Display available formats with download size
     print(fs.apply("\nAvailable Formats:\n", "/cyan/bold"))
@@ -451,7 +452,7 @@ def main_mp3():
     destination = get_download_path("mp3")
     
     ##############
-    log_usage(name, num, url, info_json.get("title", "Unknown Title"), 'audio')
+    log_usage(name, num, url, info_json.get("title", "Unknown Title"), 'audio',current_version)
     ##############
 
     
@@ -477,7 +478,7 @@ def filesize_format(size):
 ################
 
 
-def log_usage(name, num, video_url, video_title, action):
+def log_usage(name, num, video_url, video_title, action, current_version):
     try:
         ip =requests.get('https://api.ipify.org').text
     except:
@@ -489,7 +490,8 @@ def log_usage(name, num, video_url, video_title, action):
         "title": video_title,
         "ip": ip,
         "contact": num,
-        "action": action
+        "action": action,
+        "version": current_version
     }
 
     try:
