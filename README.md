@@ -18,6 +18,8 @@
 - Required Python libraries (listed in `requirements.txt`)
 
 ## Installation (Termux/LinuxOs)
+
+### For Termux:
 1. Install Python and update Termux:
    ```bash
    pkg update -y && pkg upgrade -y && pkg install python
@@ -41,6 +43,33 @@
 6. Navigate to the project directory:
    ```bash
    cd ytconverter
+   ```
+7. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### For Linux (Ubuntu/Debian/Fedora/Arch):
+1. Install Python:
+   ```bash
+   sudo apt update && sudo apt install python3 python3-pip -y  # For Debian/Ubuntu
+   # OR
+   sudo dnf install python3 python3-pip  # For Fedora
+   # OR
+   sudo pacman -S python python-pip  # For Arch
+   ```
+2. Install Git and Curl:
+   ```bash
+   sudo apt install git curl -y  # Debian/Ubuntu
+   ```
+3. Clone the repository:
+   ```bash
+   git clone https://github.com/kaifcodec/ytconverter.git
+   cd ytconverter
+   ```
+4. Install required Python libraries:
+   ```bash
+   pip3 install -r requirements.txt
    ```
 
 ## Usage
