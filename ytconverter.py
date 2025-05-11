@@ -97,20 +97,20 @@ try:
         ver_choice = input(fs.apply("Do you want to update to the new version automatically? (y/n): ", "/cyan/bold")).lower()
 
         if ver_choice == "y":
-            print('\n' + fs.apply("Running 'python update.py' — ytconverter will be updated soon.", "/cyan/bold"))
-            os.system("python update.py")
+            print('\n' + fs.apply("Running './update.sh' — ytconverter will be updated soon.", "/cyan/bold"))
+            os.system("./update.sh")
             exit()
         elif ver_choice == "n":
-            print('\n' + fs.apply("Run 'python update.py' in the ytconverter directory to update it later.", "/cyan"))
+            print('\n' + fs.apply("Run './update.sh' in the ytconverter directory to update it later.", "/cyan"))
         else:
             print('\n' + fs.apply("Invalid input. Proceeding to auto-update...", "/yellow"))
-            os.system("python update.py")
+            os.system("./update.sh")
             exit()
     else:
         print(fs.apply("You are using the latest version.", "/green"))
 
 except Exception as e:
-    print('\n' + fs.apply("Version check failed — maybe a new version is available.\nRun 'python update.py' to check.", "/red/bold"))
+    print('\n' + fs.apply("Version check failed — maybe a new version is available.\nRun './update.sh' to check.", "/red/bold"))
     pass
 
 
