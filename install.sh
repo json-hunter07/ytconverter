@@ -22,7 +22,6 @@ supports_color() {
     fi
 }
 
-# Detect OS type
 detect_os() {
     if [ -f /data/data/com.termux/files/usr/bin/pkg ]; then
         echo "termux"
@@ -39,7 +38,6 @@ detect_os() {
     fi
 }
 
-# Check sudo availability
 detect_sudo() {
     if command -v sudo >/dev/null 2>&1; then
         echo "sudo"
@@ -48,7 +46,6 @@ detect_sudo() {
     fi
 }
 
-# Install system packages
 install_system_packages() {
     local os=$1
     local sudo_cmd=$2
@@ -88,17 +85,19 @@ install_system_packages() {
     esac
 }
 
-# Install Python packages
 install_python_packages() {
     echo -e "\n${INFO} ${CYAN}Installing Python packages...${RESET}"
-
     PIP_CMD="pip3"
     command -v pip3 >/dev/null || PIP_CMD="pip"
 
-    $PIP_CMD install --upgrade pip || {
-        echo -e "${CROSS} ${RED}Failed to upgrade pip.${RESET}"
-        exit 1
-    }
+    if [ "$os_type" != "termux" ]; then
+        $PIP_CMD install --upgrade pip || {
+            echo -e "${CROSS} ${RED}Failed to upgrade pip.${RESET}"
+            exit 1
+        }
+    else
+        echo -e "${YELLOW}${INFO} Skipping pip upgrade on Termux to avoid breaking it.${RESET}"
+    fi
 
     $PIP_CMD install --upgrade yt_dlp fontstyle colored requests || {
         echo -e "${CROSS} ${RED}Python package installation failed.${RESET}"
