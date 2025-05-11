@@ -133,9 +133,9 @@ f2 = '''
       ║ ♚ Email  : kaif.repo.official@gmail.com║
       ╠═════════════════════════════════════════ '''
 f3 = '''      ╠═▶ [𝗦𝗲𝗹𝗲𝗰𝘁 𝗔n  𝐎𝐩𝐭𝐢𝐨𝐧]  ➳
-      ╠═▶ 1. Music Mp3 🎶
-      ╠═▶ 2. Video 🎥(detailed quailty & size but slow fetch)
-      ╠═▶ 3. Multiple videos🎥
+      ╠═▶ 1. Single Music Mp3 ⏬ 🎶
+      ╠═▶ 2. Single Video ⏬ 🎥(detailed quailty & size but slow fetch)
+      ╠═▶ 3. Multiple videos ⏬🎥
       ╠═▶ 4. Exit YTConverter'''
 f4 = '      ╚═:➤ '
 
