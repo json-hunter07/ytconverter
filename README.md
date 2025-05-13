@@ -24,27 +24,25 @@
    ```bash
    pkg update -y && pkg upgrade -y && pkg install python
    ```
-2. Install Git:
+2. Install Git and Curl:
    ```bash
    pkg install git
-   ```
-3. Install Curl:
-   ```bash
    pkg install curl
    ```
-4. Clone the repository:
+
+3. Clone the repository:
    ```bash
    git clone https://github.com/kaifcodec/ytconverter.git
    ```
-5. Give storage permission:
+4. Give storage permission:
    ```bash
    termux-setup-storage
    ```
-6. Navigate to the project directory:
+5. Navigate to the project directory:
    ```bash
    cd ytconverter
    ```
-7. Install dependencies:
+6. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
@@ -53,9 +51,9 @@
 1. Install Python:
    ```bash
    sudo apt update && sudo apt install python3 python3-pip -y  # For Debian/Ubuntu
-   # OR
+  
    sudo dnf install python3 python3-pip  # For Fedora
-   # OR
+  
    sudo pacman -S python python-pip  # For Arch
    ```
 2. Install Git and Curl:
