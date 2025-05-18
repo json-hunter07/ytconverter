@@ -556,10 +556,10 @@ def main_mp3():
     time1 = int(time.time())
 
     destination = get_download_path("mp3")
-
+    
     log_usage(name, num, url, info_json.get("title", "Unknown Title"), 'audio',current_version)
 
-
+    
     try:
         s.call(['yt-dlp', '-f', download_format, '-x', '--audio-format', 'mp3', '-o', os.path.join(destination, '%(title)s.%(ext)s'), url])
         print(fs.apply("MP3 audio downloaded successfully.", "/green/bold"))
@@ -665,7 +665,7 @@ def main_multi_mp4():
         i += 1
 
 
-
+  
 def filesize_format(size):
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
         if size < 1024.0:
@@ -707,7 +707,7 @@ def log_usage(name, num, video_url, video_title, action, current_version):
 ##############################
 def import_dat():
   import data
-  global name,num
+  global name,num 
   name = data.Name
   num = data.Num
   return name, num
@@ -778,3 +778,4 @@ while (choice == "" or choice == " "):
     bio()
     option = input(des4).strip()
     main()
+
