@@ -117,13 +117,12 @@
 
 
 ## Contributing
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add new feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a Pull Request.
+
+Contributions, issues, and feature requests are welcome!
+
+Please take a moment to read our [CONTRIBUTING.md](CONTRIBUTING.md) guide for details on how to help make **YTConverter™** better.
+
+Feel free to open a pull request or submit an issue.
 
 ## Disclaimer ⚠⚠
  - **We do ask you for your Name and Contact information in the beginning of the tool for update related notices but if you don't want to disclose those creds you can leave those fields blank**
