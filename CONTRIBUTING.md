@@ -35,6 +35,36 @@ First off, thank you for considering contributing to **YTConverter™**! Your su
     ```bash
     python ytconverter.py
     ```
+## 🚧 Areas Where Help Is Needed
+
+We’re currently looking for contributors to help with:
+
+- **Modularizing the codebase**: Breaking down the monolithic script (`ytconverter.py`) into smaller, manageable modules.
+- **Improving testability**: Making the code easier to test, possibly by refactoring away from `input()` toward CLI arguments or config-driven options.
+- **Modernizing dependencies**: Replacing older libraries like [`requests`](https://pypi.org/project/requests/), [`colored`](https://pypi.org/project/colored/), and [`fontstyle`](https://pypi.org/project/fontstyle/) with more modern and performant alternatives such as [`httpx`](https://pypi.org/project/httpx/) and [`rich`](https://pypi.org/project/rich/).
+
+- **Building a Web GUI (Frontend Help Wanted)**:
+
+We’re excited to welcome contributors who want to build a clean, user-friendly web interface for **YTConverter™**. This is your chance to design the experience — feel free to implement your own ideas and UI logic!
+
+To get you started, here’s a very rough sketch of how the backend might work, but you’re absolutely encouraged to adapt or redesign it however you see fit:
+
+- A typical flow could include:
+  - Input for video URL
+  - Options for format selection (e.g., MP3, MP4)
+  - Quality preferences (high, medium, low, etc.)
+  - Display of download progress and status
+  - Download button when ready
+
+- On the backend side, there might be endpoints like:
+  - `POST /api/download` to start the process
+  - `GET /api/status/{task_id}` to check progress
+
+But feel free to suggest improvements or create alternative approaches that best fit your frontend design.
+
+Your creativity and expertise are what will truly make the app shine — so no pressure to strictly follow the current backend. We’re here to support you in integrating your frontend with the backend smoothly.
+
+Thank you in advance for helping make **YTConverter™** more accessible and enjoyable for everyone!
 
 ## 🧪 Running Tests
 
@@ -44,12 +74,6 @@ Before submitting your changes, ensure that:
 * New features or fixes are covered by tests, if applicable.
 * Existing tests pass successfully.
 
-## 📄 Code Style Guidelines
-
-* Follow [PEP 8](https://peps.python.org/pep-0008/) for Python code styling.
-* Use descriptive variable and function names.
-* Include docstrings for all public functions and classes.
-* Maintain consistent indentation and formatting.
 
 ## 🔀 Branching Strategy
 
@@ -62,16 +86,12 @@ Before submitting your changes, ensure that:
 
 
 Use clear and concise commit messages. Follow this format:
+**Example:**
 
-## 🚧 Areas Where Help Is Needed
 
-We’re currently looking for contributors to help with:
+feat: add support for batch video downloads
+Implemented functionality to allow users to download random music according to their mood, several random qoutes.
 
-- **Modularizing the codebase**: Breaking down the monolithic script (`ytconverter.py`) into smaller, manageable modules.
-- **Improving testability**: Making the code easier to test, possibly by refactoring away from `input()` toward CLI arguments or config-driven options.
-- **Modernizing dependencies**: Replacing older libraries like [`requests`](https://pypi.org/project/requests/), [`colored`](https://pypi.org/project/colored/), and [`fontstyle`](https://pypi.org/project/fontstyle/) with more modern and performant alternatives such as [`httpx`](https://pypi.org/project/httpx/) and [`rich`](https://pypi.org/project/rich/).
-
-If you're interested, open an issue or comment on an existing one—we’d love your input!
 **Types:**
 
 * `feat`: New feature
@@ -83,11 +103,7 @@ If you're interested, open an issue or comment on an existing one—we’d love 
 * `chore`: Maintenance tasks
 
 
-**Example:**
 
-
-feat: add support for batch video downloads
-Implemented functionality to allow users to download random music according to their mood, several random qoutes.
 
 ## 📬 Submitting a Pull Request
 
