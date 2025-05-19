@@ -1,17 +1,28 @@
-print('\n'+"Attempting to import required modules".center(99))
-from traceback import print_exc
-import os
-import random
-import subprocess as s
-import re
-import json
-import shutil
-import time
-import platform
+#!/usr/bin/env python3
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "colored",
+#     "fontstyle",
+#     "requests",
+#     "yt-dlp",
+# ]
+# ///
+
 import datetime
 import inspect
+import json
+import os
+import platform
+import re
+import shutil
+import subprocess as s
+import time
 import traceback
 from pathlib import Path
+
+print('\n'+"Attempting to import required modules".center(99))
 try:
     from colored import fg, attr
     f_colored = fg(117)
