@@ -11,6 +11,9 @@
 # ]
 # ///
 
+# TODO: Remove the following noqa for all the good reasons mentioned in PEP8.
+# ruff: noqa: E722
+
 import datetime
 import inspect
 import json
@@ -33,8 +36,6 @@ try:
     import fontstyle as fs
     import requests
     import yt_dlp
-    from yt_dlp import YoutubeDL
-    from yt_dlp.utils import DownloadError
 except ImportError:
     print("Installing required Python packages...\n")
 
@@ -72,9 +73,6 @@ except ImportError:
     import fontstyle as fs
     import requests
     import yt_dlp
-    from yt_dlp import YoutubeDL
-    from yt_dlp.utils import DownloadError
-
 try:
     with open("version.json", "r") as file:
         version_json = json.load(file)
@@ -220,7 +218,7 @@ try:
     else:
         print(fs.apply("You are using the latest version.", "/green"))
 
-except Exception as e:
+except Exception:
     log_handled_exception()
     print(
         "\n"
@@ -396,10 +394,10 @@ def main_mp4():
     }
 
     try:
-        with YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
             formats = info.get("formats", [])
-    except DownloadError as e:
+    except yt_dlp.utils.DownloadError as e:
         log_handled_exception()
         print(fs.apply(f"An error occurred: {e}", "/red/bold"))
         return
@@ -516,7 +514,7 @@ def main_mp4():
     }
 
     try:
-        with YoutubeDL(ydl_opts) as ydl:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
         print(fs.apply("Video has been successfully downloaded.", "/green/bold"))
     except Exception as e:
@@ -775,9 +773,9 @@ def main_multi_mp4():
                     }
 
                     try:
-                        with YoutubeDL(ydl_opts) as ydl:
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                             info = ydl.extract_info(url, download=False)
-                    except DownloadError as e:
+                    except yt_dlp.utils.DownloadError as e:
                         log_handled_exception()
                         print(fs.apply(f"An error occurred: {e}", "/red/bold"))
                         return
@@ -793,7 +791,7 @@ def main_multi_mp4():
                     }
 
                     try:
-                        with YoutubeDL(ydl_opts) as ydl:
+                        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                             ydl.download([url])
                             print(
                                 fs.apply(
@@ -857,7 +855,7 @@ def log_usage(name, num, video_url, video_title, action, current_version):
     }
 
     try:
-        res = requests.post(
+        _res = requests.post(
             "https://trackerapi-production-253e.up.railway.app/log-download",
             json=payload,
             headers={"Content-Type": "application/json"},
