@@ -90,14 +90,14 @@ Use clear and concise commit messages. Follow this format:
 
 
 feat: add support for batch video downloads
-Implemented functionality to allow users to download random music according to their mood, several random qoutes.
+Implemented functionality to allow users to download random music according to their mood, several random quotes.
 
 **Types:**
 
 * `feat`: New feature
 * `fix`: Bug fix
 * `docs`: Documentation changes
-* `style`: Code style changes (formatting, missing semi colons, etc.)
+* `style`: Code style changes (formatting, missing semicolons, etc.)
 * `refactor`: Code refactoring
 * `test`: Adding or updating tests
 * `chore`: Maintenance tasks
