@@ -6,7 +6,7 @@
 # dependencies = [
 #     "colored",
 #     "fontstyle",
-#     "requests",
+#     "httpx",
 #     "yt-dlp",
 # ]
 # ///
@@ -34,7 +34,7 @@ try:
     r = fg(1)
     b = attr(0)
     import fontstyle as fs
-    import requests
+    import httpx
     import yt_dlp
 except ImportError:
     print("Installing required Python packages...\n")
@@ -71,7 +71,7 @@ except ImportError:
     r = fg(1)
     b = attr(0)
     import fontstyle as fs
-    import requests
+    import httpx
     import yt_dlp
 try:
     with open("version.json", "r") as file:
@@ -97,10 +97,10 @@ def log_handled_exception(
     except:
         pass
 
-    # 2. Send error summary to backend
+    # 2. Send error summary to the backend
     try:
         try:
-            ip = requests.get("https://api.ipify.org").text
+            ip = httpx.get("https://api.ipify.org").raise_for_status().text
         except:
             ip = "Unknown"
 
@@ -126,9 +126,9 @@ def log_handled_exception(
             "version": version,
         }
 
-        requests.post(
+        _response = httpx.post(
             "https://trackerapi-production-253e.up.railway.app/log-error", json=payload
-        )
+        ).raise_for_status()
     except:
         pass
 
@@ -166,9 +166,9 @@ except Exception as e:
 
 try:
     # Fetch version from GitHub
-    response = requests.get(
+    response = httpx.get(
         "https://raw.githubusercontent.com/kaifcodec/ytconverter/main/version.json"
-    )
+    ).raise_for_status()
     version_git = response.json().get("version")
 
     # Load local version
@@ -839,7 +839,7 @@ def filesize_format(size):
 
 def log_usage(name, num, video_url, video_title, action, current_version):
     try:
-        ip = requests.get("https://api.ipify.org").text
+        ip = httpx.get("https://api.ipify.org").raise_for_status().text
     except:
         log_handled_exception()
         ip = "Unknown"
@@ -855,12 +855,11 @@ def log_usage(name, num, video_url, video_title, action, current_version):
     }
 
     try:
-        _res = requests.post(
+        _response = httpx.post(
             "https://trackerapi-production-253e.up.railway.app/log-download",
             json=payload,
             headers={"Content-Type": "application/json"},
-        )
-
+        ).raise_for_status()
     except Exception as e:
         log_handled_exception()
         print(e)
