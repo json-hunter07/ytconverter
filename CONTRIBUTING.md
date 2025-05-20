@@ -54,7 +54,7 @@ To get you started, here’s a very rough sketch of how the backend might work, 
   - Options for format selection (e.g., MP3, MP4)
   - Quality preferences (high, medium, low, etc.)
   - Display of download progress and status
-  - Download button when ready
+  - Download button when ruokkk
 
 - On the backend side, there might be endpoints like:
   - `POST /api/download` to start the process
