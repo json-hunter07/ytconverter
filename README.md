@@ -27,7 +27,6 @@
 
 
 ### Installation For Linux (Ubuntu/Debian/Fedora/Arch):
-```
 1. Install Python:
    ```bash
    sudo apt update && sudo apt install python3 python3-pip -y  # For Debian/Ubuntu
