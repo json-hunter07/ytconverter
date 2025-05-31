@@ -28,7 +28,7 @@ jobs:
 
   test-on-windows:
     runs-on: windows-latest
-    needs: build # Ensures syntax check passes before running full tests
+    needs: build
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -39,28 +39,22 @@ jobs:
         python-version: '3.9'
 
     - name: Install dependencies
-      shell: bash # Using bash for consistency in commands
+      shell: bash
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Create dummy data.json
       shell: bash
-      # This bypasses the initial script prompts for name and email.
-      run: echo '{"Name": "CI User", "Num": "ci@example.com"}' > data.json
+      run: |
+        echo '{"Name": "CI User", "Num": "ci@example.com"}' > data.json
 
     - name: Check for ffmpeg (usually pre-installed on GitHub runners)
       shell: bash
-      run: ffmpeg -version # This step will fail if ffmpeg is not found.
+      run: ffmpeg -version
 
     - name: Test Single MP3 Download
       shell: bash
-      # Inputs:
-      # 1. "n"       - For the "Do you want to update?" prompt (if versions mismatch).
-      # 2. "1"       - Main menu: Select "Single Music Mp3".
-      # 3. "URL"     - The YouTube URL. Using a short, reliable test video.
-      # 4. ""         - Empty line for download path (uses default).
-      # 5. "0"       - Audio quality: Select "best available".
       run: |
         echo "Starting Single MP3 Download Test"
         (echo "n"; echo "1"; echo "https://www.youtube.com/watch?v=YE7_OuSwKQY"; echo ""; echo "0") | python ytconverter.py
@@ -68,12 +62,6 @@ jobs:
 
     - name: Test Single MP4 Download
       shell: bash
-      # Inputs:
-      # 1. "n"       - For "Do you want to update?".
-      # 2. "2"       - Main menu: Select "Single Video".
-      # 3. "URL"     - The YouTube URL.
-      # 4. "1"       - Format choice: Select the first available format from the script's list.
-      # 5. ""         - Empty line for download path (uses default).
       run: |
         echo "Starting Single MP4 Download Test"
         (echo "n"; echo "2"; echo "https://www.youtube.com/watch?v=YE7_OuSwKQY"; echo "1"; echo "") | python ytconverter.py
@@ -81,14 +69,6 @@ jobs:
 
     - name: Test Multiple MP4 Download
       shell: bash
-      # Inputs:
-      # 1. "n"       - For "Do you want to update?".
-      # 2. "3"       - Main menu: Select "Multiple videos".
-      # 3. "URL1"    - First YouTube URL.
-      # 4. "URL2"    - Second YouTube URL.
-      # 5. "0"       - Stop adding URLs.
-      # 6. "3"       - Quality choice: e.g., 720p.
-      # 7. ""         - Empty line for download path (uses default).
       run: |
         echo "Starting Multiple MP4 Download Test"
         (echo "n"; echo "3"; echo "https://www.youtube.com/watch?v=YE7_OuSwKQY"; echo "https://www.youtube.com/watch?v=IBqS3t3qAg0"; echo "0"; echo "3"; echo "") | python ytconverter.py
@@ -96,9 +76,6 @@ jobs:
 
     - name: Test Exit Option
       shell: bash
-      # Inputs:
-      # 1. "n"       - For "Do you want to update?".
-      # 2. "4"       - Main menu: Select "Exit YTConverter".
       run: |
         echo "Starting Exit Option Test"
         (echo "n"; echo "4") | python ytconverter.py
