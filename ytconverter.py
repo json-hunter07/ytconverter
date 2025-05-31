@@ -85,10 +85,66 @@ try:
 except:
     current_version = "version.json not found"
     pass
+  
+  
+notice_text = fs.apply("IMPORTANT NOTICE", "/red/bold")
+notice = fs.apply(
+    "We respect your privacy. Any basic info this tool collects (like usage data, usage statistics) is handled securely and used in improving error handling, never shared. \nNo creepy tracking—just good software",
+    "/green/bold",
+)
+tname = fs.apply("WHAT IS YOUR NAME?", "/yellow/bold")
+warning = fs.apply("(ENTER WISELY YOU CAN'T CHANGE IT LATER)", "/red/bold")
+tnum = fs.apply(
+    "ENTER YOUR EMAIL ADDRESS TO STAY UPDATED ABOUT NEW RELEASES (IF YOU'R INTERESTED)",
+    "/cyan/bold",
+)
 
+def dat_collect():
+    script_dir = os.path.dirname(os.path.abspath(__file__))  
+    data_path = os.path.join(script_dir, "data.json")
+    print("THIS IS COMPULSORY FOR THE FIRST TIME\n")  
+    print(notice_text.center(100) + "\n")  
+    print(notice)  
+
+    mm = input("\n" + tname + warning + "⚠⚠ : ")  
+    print("  ")  
+    nn = input(tnum + warning + "⚠⚠ : ")  
+    print("   ")  
+
+    # Write to JSON
+    user_data = {"Name": mm, "Num": nn}
+
+    with open(data_path, "w") as file:
+        json.dump(user_data, file)  # Write the data as JSON
+    return
+  
+
+def import_dat():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(script_dir, "data.json") 
+    try:
+        with open(data_path, "r") as file:
+             data = json.load(file)  # Read the JSON file
+             name = data.get("Name", "null") 
+             num = data.get("Num", "null")
+             
+    except FileNotFoundError:
+        pass
+    return name, num
+
+try:
+    name, num = import_dat()
+except:
+    try:
+        dat_collect()
+        name, num = import_dat()
+    except Exception:
+        name = "null"
+        num = "null"
+        pass
 
 def log_handled_exception(
-    name=None, num=None, version=current_version, logfile="error_logs.txt"
+    name=name, num=num, version=current_version, logfile="error_logs.txt"
 ):
     function = inspect.stack()[1].function
     timestamp = datetime.datetime.now().isoformat()
@@ -138,6 +194,8 @@ def log_handled_exception(
         pass
 
 
+
+
 print("\n" + fs.apply("Wait just version check is processing...", "/cyan/bold"))
 try:
     if os.path.exists("/data/data/com.termux/files/usr/"):
@@ -173,19 +231,23 @@ try:
     # Fetch version from GitHub
     response = httpx.get(
         "https://raw.githubusercontent.com/kaifcodec/ytconverter/main/version.json"
-    ).raise_for_status()
+    )
+    response.raise_for_status()
     version_git = response.json().get("version")
 
     # Load local version
-    with open("version.json", "r") as file:
-        version_json = json.load(file)
-    current_version = version_json.get("version")
-
+    try:
+        with open("version.json", "r") as file:
+            version_json = json.load(file)
+        current_version = version_json.get("version")
+    except FileNotFoundError:
+        current_version = None 
+        log_handled_exception()
     # Compare versions
     if current_version != version_git:
         print("\n" + fs.apply("A new version for the tool is available!", "/cyan/bold"))
         print(
-            f"Your current version is v{current_version}, latest version is v{version_git}!\n"
+            f"Your current version is v{current_version or 'N/A,not found'}, latest version is v{version_git}!\n"
         )
 
         ver_choice = input(
@@ -232,20 +294,9 @@ except Exception:
             "/red/bold",
         )
     )
-    pass
+    
 
 
-notice_text = fs.apply("IMPORTANT NOTICE", "/red/bold")
-notice = fs.apply(
-    "We respect your privacy. Any basic info this tool collects (like usage data, usage statistics) is handled securely and used in improving error handling, never shared. \nNo creepy tracking—just good software",
-    "/green/bold",
-)
-tname = fs.apply("WHAT IS YOUR NAME?", "/yellow/bold")
-warning = fs.apply("(ENTER WISELY YOU CAN'T CHANGE IT LATER)", "/red/bold")
-tnum = fs.apply(
-    "ENTER YOUR EMAIL ADDRESS TO STAY UPDATED ABOUT NEW RELEASES (IF YOU'R INTERESTED)",
-    "/cyan/bold",
-)
 f1 = r"""
      __   _______ ____                          _
      \ \ / /_   _/ ___|___  _ ____   _____ _ __| |_ ___ _ __
@@ -873,28 +924,6 @@ def log_usage(name, num, video_url, video_title, action, current_version):
 
 
 ##############################
-def import_dat():
-    import data
-
-    global name, num
-    name = data.Name
-    num = data.Num
-    return name, num
-
-
-def dat_collect():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    file = open(script_dir + "/data.py", "w")
-    print("THIS IS COMPULSORY FOR THE FIRST TIME\n")
-    print(notice_text.center(100) + "\n")
-    print(notice)
-    mm = input("\n" + tname + warning + "⚠⚠ : ")
-    print("  ")
-    nn = input(tnum + warning + "⚠⚠ : ")
-    print("   ")
-    file.write(f"Name='{mm}' \nNum='{nn}' ")
-    file.close()
-    return
 
 
 def main():
@@ -915,19 +944,7 @@ def main():
         exit()
 
 
-try:
-    import_dat()
-    name, num = import_dat()
-except:
-    try:
-        dat_collect()
-        import_dat()
-        name, num = import_dat()
-    except:
-        log_handled_exception()
-        name = "null"
-        num = "null"
-        pass
+
 try:
     os.system("clear")
     os.system("rm -r -f __pycache__ ")
