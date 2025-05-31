@@ -50,6 +50,7 @@ jobs:
       run: echo '{"Name": "CI User", "Num": "ci@example.com"}' > data.json
 
     - name: Check for ffmpeg (usually pre-installed on GitHub runners)
+      shell: bash
       run: ffmpeg -version # This step will fail if ffmpeg is not found.
 
     - name: Test Single MP3 Download
