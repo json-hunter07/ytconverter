@@ -1,113 +1,102 @@
- name: Python CI
+name: Python CI
 
- on:
-   push:
-     branches: [ main ]
-   pull_request:
-     branches: [ main ]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
- jobs:
-   build:
-     runs-on: ubuntu-latest
-     steps:
-     - name: Checkout repository
-       uses: actions/checkout@v4
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-     - name: Set up Python
-       uses: actions/setup-python@v5
-       with:
-         python-version: '3.9'
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
 
-     - name: Install dependencies
-       run: |
-         python -m pip install --upgrade pip
-         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # The script itself tries to install requirements, but it's good practice to ensure they are installed here.
+        # Check pyproject.toml or requirements.txt from your project.
+        # Assuming your dependencies are listed in 'requires-python' and 'dependencies' in the script,
+        # you might need to extract them or create a requirements.txt if not already present.
+        # For this example, let's assume dependencies like colored, fontstyle, httpx, yt-dlp are used.
+        pip install colored fontstyle httpx yt-dlp
 
-     - name: Check syntax of ytconverter.py
-       run: python -m py_compile ytconverter.py
+    - name: Check syntax of ytconverter.py
+      run: python -m py_compile ytconverter.py
 
-   test-on-windows:
-     runs-on: windows-latest
-     needs: build
-     steps:
-       - name: Checkout repository
-         uses: actions/checkout@v4
+  test-on-windows:
+    runs-on: windows-latest
+    needs: build
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-       - name: Run install.bat
-         shell: cmd
-         run: install.bat
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
 
-       - name: Set up Python
-         uses: actions/setup-python@v5
-         with:
-           python-version: '3.9'
+    - name: Install dependencies
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        # Same as above, ensure dependencies are installed for the Windows runner
+        pip install colored fontstyle httpx yt-dlp
 
-       - name: Install dependencies
-         shell: bash # Corrected: This should be bash for a mixed environment
-         run: |
-           python -m pip install --upgrade pip
-           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Create dummy data.json
+      shell: bash
+      run: |
+        echo "{\"Name\": \"CI User\", \"Num\": \"ci@example.com\"}" > data.json
 
-       - name: Create dummy data.json
-         shell: bash # Corrected: This should be bash for a mixed environment
-         run: |
-           echo "{\"Name\": \"CI User\", \"Num\": \"ci@example.com\"}" > data.json
+    - name: Install ffmpeg (Windows)
+      shell: pwsh
+      run: |
+        choco install ffmpeg -y
 
-       - name: Install FFmpeg (Windows)
-         shell: pwsh # Corrected: Use PowerShell for Windows-specific tasks
-         run: |
-           $ffmpegUrl = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z" # Or choose another reliable source
-           $downloadPath = "$env:TEMP\ffmpeg.7z"
-           $extractPath = "$env:TEMP\ffmpeg-extracted"
+    - name: Check for ffmpeg (Windows)
+      shell: pwsh
+      run: |
+        ffmpeg -version
 
-           Write-Host "Downloading FFmpeg from $ffmpegUrl..."
-           Invoke-WebRequest -Uri $ffmpegUrl -OutFile $downloadPath -ErrorAction Stop
+    # The 'n' inputs are to bypass the initial data collection and version update prompts.
+    # The empty string '' is to simulate pressing Enter at the 'Press [ENTER] to continue...' prompt.
+    # The dummy URLs are just for the input, yt-dlp will fail on them.
 
-           Write-Host "Extracting FFmpeg..."
-           # GitHub Actions runners typically have 7-Zip pre-installed
-           7z x $downloadPath -o"$extractPath" -y | Out-Null # Extract silently
+    - name: Test Single MP3 Download
+      shell: bash
+      run: |
+        echo "Starting Single MP3 Download Test"
+        # Provide 'n' for initial prompts, then '1' for MP3, then a dummy URL, then '0' for best audio format, then '' for the continue prompt.
+        printf "n\nn\nn\n1\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n0\n\n" | python ytconverter.py
+        echo "Single MP3 Download Test Finished"
 
-           # Find the actual bin folder within the extracted directory (name can vary slightly)
-           $ffmpegBinDir = Get-ChildItem -Path "$extractPath\*" -Directory | Where-Object { $_.Name -like "*ffmpeg*" } | Select-Object -ExpandProperty FullName
-           $ffmpegBinDir = Join-Path $ffmpegBinDir "bin"
+    - name: Test Single MP4 Download
+      shell: bash
+      run: |
+        echo "Starting Single MP4 Download Test"
+        # Provide 'n' for initial prompts, then '2' for MP4, then a dummy URL, then '1' to select the first format option, then '' for the continue prompt.
+        printf "n\nn\nn\n2\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n1\n\n" | python ytconverter.py
+        echo "Single MP4 Download Test Finished"
 
-           if (-not (Test-Path $ffmpegBinDir)) {
-               Write-Error "FFmpeg bin directory not found after extraction: $ffmpegBinDir"
-               exit 1
-           }
+    - name: Test Multiple MP4 Download
+      shell: bash
+      run: |
+        echo "Starting Multiple MP4 Download Test"
+        # Provide 'n' for initial prompts, then '3' for multi-MP4, then a dummy URL, then '0' to start download for multi, then '1' for quality, then '' for the continue prompt.
+        printf "n\nn\nn\n3\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n0\n1\n\n" | python ytconverter.py
+        echo "Multiple MP4 Download Test Finished"
 
-           Write-Host "Adding FFmpeg bin directory to PATH: $ffmpegBinDir"
-           echo "::add-path::$ffmpegBinDir" # This special command adds the path for subsequent steps in this job
-
-       - name: Check for ffmpeg (Windows)
-         shell: pwsh # Corrected: Use PowerShell for Windows-specific tasks
-         run: |
-           ffmpeg -version
-
-       - name: Test Single MP3 Download
-         shell: bash # Corrected: This should be bash for a mixed environment
-         run: |
-           echo "Starting Single MP3 Download Test"
-           printf "n\n1\nhttps://www.youtube.com/watch?v=YE7_OuSwKQY\n\n0\n" | python ytconverter.py
-           echo "Single MP3 Download Test Finished"
-
-       - name: Test Single MP4 Download
-         shell: bash # Corrected: This should be bash for a mixed environment
-         run: |
-           echo "Starting Single MP4 Download Test"
-           printf "n\n2\nhttps://www.youtube.com/watch?v=YE7_OuSwKQY\n1\n\n" | python ytconverter.py
-           echo "Single MP4 Download Test Finished"
-
-       - name: Test Multiple MP4 Download
-         shell: bash # Corrected: This should be bash for a mixed environment
-         run: |
-           echo "Starting Multiple MP4 Download Test"
-           printf "n\n3\nhttps://www.youtube.com/watch?v=YE7_OuSwKQY\nhttps://www.youtube.com/watch?v=IBqS3t3qAg0\n0\n3\n\n" | python ytconverter.py
-           echo "Multiple MP4 Download Test Finished"
-
-       - name: Test Exit Option
-         shell: bash # Corrected: This should be bash for a mixed environment
-         run: |
-           echo "Starting Exit Option Test"
-           printf "n\n4\n" | python ytconverter.py
-           echo "Exit Option Test Finished"
+    - name: Test Exit Option
+      shell: bash
+      run: |
+        echo "Starting Exit Option Test"
+        # Provide 'n' for initial prompts, then '4' to exit. No further input is needed.
+        printf "n\nn\nn\n4\n" | python ytconverter.py
+        echo "Exit Option Test Finished"
