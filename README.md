@@ -88,9 +88,9 @@ pip install -r requirements.txt
 - MacOs
 
 ---
-## ScrScreenshots
+## Screenshots
 <p align= "left">
- <img src="https://github.com/user-attachments/assets/a9a4df87-6d7d-4728-ac54-1908c8fd5d2a"/>
+ <img src="https://github.com/user-attachments/assets/12927988-08b8-457b-a82b-df5d10114027"/>
 </p>
 <p align="left">
 <img src= "https://github.com/user-attachments/assets/8e9d00ce-b698-4b1f-8870-badd5d274442" width="600" height="600"/>
