@@ -1,0 +1,53 @@
+# .github/workflows/test_installer.yml
+
+name: Test YTConverter Installer
+
+on:
+  workflow_dispatch: # This allows you to run the workflow manually from the GitHub UI
+
+jobs:
+  run-installer:
+    runs-on: windows-latest # Use a fresh Windows environment
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4 # Get your code onto the runner
+
+    - name: Set up Python
+      # Ensure Python 3.x is available. GitHub's windows-latest usually has it.
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Run Install Batch Script
+      # Execute your install.bat file.
+      # Assuming install.bat is at the root of your repository.
+      shell: cmd # Explicitly use the Command Prompt shell
+      run: |
+        install.bat
+
+    - name: Verify yt-dlp Installation (Optional)
+      # After the installer runs, check if yt-dlp is accessible.
+      # This helps confirm the PATH modification worked for subsequent commands in the same job.
+      shell: cmd
+      run: |
+        echo Verifying yt-dlp version...
+        where yt-dlp
+        yt-dlp --version
+      continue-on-error: true # Don't fail the workflow if this specific check has issues
+
+    - name: Check for FFmpeg (Optional)
+      # Confirm FFmpeg is in the current directory or PATH.
+      shell: cmd
+      run: |
+        echo Verifying FFmpeg...
+        where ffmpeg
+        ffmpeg -version
+      continue-on-error: true # Don't fail the workflow if this specific check has issues
+
+    - name: List installed Python packages (Optional)
+      # See what Python packages were installed by your script.
+      shell: cmd
+      run: |
+        echo Listing Python packages...
+        pip list
