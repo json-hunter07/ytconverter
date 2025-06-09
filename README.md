@@ -1,7 +1,7 @@
 
 ## YTConverter™
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.4.1-blueviolet?style=for-the-badge&logo=github" />
+  <img src="https://img.shields.io/badge/Version-3.5.0-blueviolet?style=for-the-badge&logo=github" />
   <img src="https://img.shields.io/github/forks/kaifcodec/ytconverter?style=for-the-badge&logo=git" />
   <img src="https://img.shields.io/github/stars/kaifcodec/ytconverter?style=for-the-badge&logo=github" />
   <img src="https://img.shields.io/github/issues/kaifcodec/ytconverter?style=for-the-badge&logo=github" />
@@ -87,8 +87,9 @@ pip install -r requirements.txt
 ```powershell
 install.bat
 ```
+3. After installation move installed yt-dlp.exe and ffmpeg binaries to your `PATH` directory, so that the script can access it globally.
 
-3. After installation, start the program:
+4. After installation, start the program:
 ```powershell
 python ytconverter.py
 ```   
