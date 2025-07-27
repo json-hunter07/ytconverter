@@ -230,7 +230,7 @@ except Exception as e:
 try:
     # Fetch version from GitHub
     response = httpx.get(
-        "https://raw.githubusercontent.com/kaifcodec/ytconverter/main/version.json"
+        "https://raw.githubusercontent.com/kaifcodec/ytconverter/main/standalone/version.json"
     )
     response.raise_for_status()
     version_git = response.json().get("version")
