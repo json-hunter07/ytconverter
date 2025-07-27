@@ -72,7 +72,7 @@ jobs:
         # Simulates user input for ytconverter.py using printf and piping.
         # 'n' inputs bypass initial data collection/update prompts.
         # '1' selects MP3, followed by a dummy URL, '0' for best audio, then an empty line for continue prompt.
-        printf "n\nn\nn\n1\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n0\n\n" | python ytconverter.py
+        printf "n\nn\nn\n1\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n0\n\n" | python3 standalone/ytconverter.py
         echo "Single MP3 Download Test Finished"
 
     - name: Test Single MP4 Download
@@ -80,7 +80,7 @@ jobs:
       run: |
         echo "Starting Single MP4 Download Test"
         # 'n' inputs, '2' selects MP4, dummy URL, '1' for first format, empty line for continue.
-        printf "n\nn\nn\n2\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n1\n\n" | python ytconverter.py
+        printf "n\nn\nn\n2\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n1\n\n" | python3 standalone/ytconverter.py
         echo "Single MP4 Download Test Finished"
 
     - name: Test Multiple MP4 Download
@@ -88,7 +88,7 @@ jobs:
       run: |
         echo "Starting Multiple MP4 Download Test"
         # 'n' inputs, '3' for multi-MP4, dummy URL, '0' to start multi-download, '1' for quality, empty line for continue.
-        printf "n\nn\nn\n3\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n0\n1\n\n" | python ytconverter.py
+        printf "n\nn\nn\n3\nhttp://www.youtube.com/watch?v=dQw4w9WgXcQ\n0\n1\n\n" | python3 standalone/ytconverter.py
         echo "Multiple MP4 Download Test Finished"
 
     - name: Test Exit Option
@@ -96,6 +96,6 @@ jobs:
       run: |
         echo "Starting Exit Option Test"
         # 'n' inputs, '4' to exit the script.
-        printf "n\nn\nn\n4\n" | python ytconverter.py
+        printf "n\nn\nn\n4\n" | python3 standalone/ytconverter.py
         echo "Exit Option Test Finished"
 
