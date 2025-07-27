@@ -308,7 +308,7 @@ f2 = """
       ║ ♚ Project Name : YTConverter™          ║
       ║ ♚ Author : KAIF_CODEC                  ║
       ║ ♚ Github : github.com/kaifcodec        ║
-      ║ ♚ Email  : kaif.repo.official@gmail.com║
+      ║ ♚ Email  : kaifcodec@gmail.com         ║
       ╠═════════════════════════════════════════ """
 f3 = """      ╠═▶ [𝗦𝗲𝗹𝗲𝗰𝘁 𝗔n  𝐎𝐩𝐭𝐢𝐨𝐧]  ➳
       ╠═▶ 1. Single Music Mp3 ⏬ 🎶
