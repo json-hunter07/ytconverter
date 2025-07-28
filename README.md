@@ -133,7 +133,7 @@ install.bat
 4. After installation, start the program:
 ```powershell
 python3 ytconverter.py
-```   
+```
 ## Usage
 1. Run the main script to start the conversion process:
    ```bash
@@ -146,7 +146,10 @@ python3 ytconverter.py
    ```bash
    ./standalone/update.sh # It also keeps your yt-dlp up-to-date 
    ```
-
+2. To update the `ytconverter` binary just simply run the below command on your terminal:
+   ```bash
+   ytconverter -U
+   ```
 ## Tested on
 - Linux
 - Termux
