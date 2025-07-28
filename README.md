@@ -33,15 +33,39 @@ Check the screenshots below👇
 - ffmpeg & yt-dlp binary
 
 ## Install pypi Package (For Any)
-1. Clone the repository
+---
+- You can clone the repository or manually install `ffmpeg` by following no.2 commands 👇 
+1. Clone the repository and auto-setup the required binaries by running `install.sh`
+
    ```bash
-   cd ytconverter
-   ./standalone/install.sh # Only for Linux-like & Termux users
+   git clone https://github.com/kaifcodec/ytconverter.git
+   cd ytconverter/standalone/
+   ./install.sh
+   ```
+- Or else you can manually install `ffmpeg` by following below commands and ignore the repository cloning.
+<!--- 1. Or manually instll ffmpeg
+   ```bash
+   sudo apt install ffmpeg # For Linux
    ```
    ```bash
-   
-   pip install ytconverter
+   pkg install ffmpeg # For Termux
+   ``` 
+- After installing ffmpeg binary follow the below instructions
+   ```bash
+   ./standalone/install.sh # Only for Linux-like & Termux users
+   ``` --->
+  2. If `install.sh` fails try installing ffmpeg manually by following below commands
 
+      ```bash
+      sudo apt install ffmpeg # For Linux
+      ```
+      ```bash
+      pkg install ffmpeg # For Termux
+      ```
+3. After completion of setup install ytconverter pypi package and run
+
+   ```bash
+   pip install ytconverter
    ytconverter -S
    ```
 - ⚠️ You need to manually install ffmpeg for windows or you can try `standalone/install.bat`
@@ -99,7 +123,7 @@ pip install -r requirements.txt
 
    ```powershell
    git clone https://github.com/kaifcodec/ytconverter.git
-   cd ytconverter
+   cd ytconverter/standalone/
 2. Open Command Prompt and run the installer batch file `ytconverter/standalone/` directory:
 ```powershell
 install.bat
