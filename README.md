@@ -199,7 +199,7 @@ Feel free to open a pull request or submit an issue.
  - **We do ask you for your Name and Contact information at the beginning of the tool for update-related notices, but if you don't want to disclose those creds, you can leave those fields blank**
  - **We also collect some basic information about the usage statistics and the user's Public IP, but we assure you that this data is not kept more than 48 hours**
  - **We respect your privacy. Any basic info this tool collects (like usage data) is handled securely and never shared. No creepy tracking—just good software.**
- - _Thank you 🌹🌹_ _Keep supporting ❤❤_
+ - Thank you 🌹 and Keep supporting ❤
 
 ---
 
