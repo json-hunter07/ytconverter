@@ -15,7 +15,7 @@ Upcoming:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='YTConverter - YouTube Downloader CLI Tool',
+        description="YTConverter - YouTube Downloader CLI Tool",
         epilog=EPILOG,
         formatter_class=argparse.RawTextHelpFormatter,
         add_help=False)
