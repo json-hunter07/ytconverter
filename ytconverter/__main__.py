@@ -1,51 +1,61 @@
-import os
+import argparse
 import sys
 from pathlib import Path
-from ytconverter.config import load_local_version as llv
 
 # Allow running as script or module
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-HELP_TEXT = """
-  YTConverter - YouTube Downloader CLI Tool
-
-Usage:
-  ytconverter -S         Launch the interactive menu and the main script.
-  ytconverter -U         Update YTConverter to the latest version via pip.
-  ytconverter -v         Show the current installed version.
-  ytconverter -h         Show this help message.
-
-Examples:
-  ytconverter -S
-  ytconverter -U
-  ytconverter -v
-
-Upcomig:
-  ytconverter <url> -mp3 -b 128, 192,...
+EPILOG = """
+Upcoming:
+  ytconverter <url> -mp3 -b 128, 192, ...
   ytconverter <url> -mp4 -r 720, 1080, 4K, ...
   ytconverter <url> -multi_<mp4/mp3>
   ytconverter <url> --playlist
 """
 
 def main():
-    if "-U" in sys.argv or "--update" in sys.argv:
+    parser = argparse.ArgumentParser(
+        description='YTConverter - YouTube Downloader CLI Tool',
+        epilog=EPILOG,
+        formatter_class=argparse.RawTextHelpFormatter,
+        add_help=False)
+
+    mutually_exclusive_group = parser.add_mutually_exclusive_group()
+
+    mutually_exclusive_group.add_argument(
+        "-S", "-s", action="store_true", help="Launch the interactive menu and the main script.")
+
+    mutually_exclusive_group.add_argument(
+        "-U", "--update",
+        action="store_true",
+        help="Update YTConverter to the latest version via pip.")
+
+    mutually_exclusive_group.add_argument(
+        "-v", "--version", action="store_true", help="Show the current installed version.")
+
+    mutually_exclusive_group.add_argument(
+        "-h", "--help", action="help", help="Show this help message.")
+
+    args = parser.parse_args()
+
+    if args.update:
         from ytconverter.utils.update import update_self
         update_self()
-        sys.exit()
+        return
 
-    elif "-v" in sys.argv or "--version" in sys.argv:
-        print(f"YTConverter version: {llv()}")
-        sys.exit()
+    elif args.version:
+        from ytconverter.config import load_local_version
+        print(f"YTConverter version: {load_local_version()}")
+        return
 
-    elif "-h" in sys.argv or "--help" in sys.argv:
-        print(HELP_TEXT)
-        sys.exit()
-
-    elif "-S" in sys.argv or "-s" in sys.argv:
+    elif args.S:
         from ytconverter.cli.menu import main_loop
         main_loop()
+        return
+
     else:
-        print(HELP_TEXT)
-        sys.exit()
+        parser.print_help()
+        return
+
 if __name__ == "__main__":
     main()
