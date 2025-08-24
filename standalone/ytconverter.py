@@ -305,15 +305,15 @@ f1 = r"""
        | |   | || |__| (_) | | | \ V /  __/ |  | ||  __/ |
        |_|   |_| \____\___/|_| |_|\_/ \___|_|   \__\___|_|"""
 f2 = """
-      ╔════════════════════════════════════════╗
-      ║ ♚ Project Name : YTConverter™          ║
-      ║ ♚ Author : KAIF_CODEC                  ║
-      ║ ♚ Github : github.com/kaifcodec        ║
-      ║ ♚ Email  : kaifcodec@gmail.com         ║
-      ╠═════════════════════════════════════════ """
-f3 = """      ╠═▶ [𝗦𝗲𝗹𝗲𝗰𝘁 𝗔n  𝐎𝐩𝐭𝐢𝐨𝐧]  ➳
+      ╔═════════════════════════════════════════╗
+      ║ ♚ Project Name : YTConverter™           ║
+      ║ ♚ Author : KAIF_CODEC                   ║
+      ║ ♚ Github : https://github.com/kaifcodec ║
+      ║ ♚ Email  : kaifcodec@gmail.com          ║
+      ╠══════════════════════════════════════════ """
+f3 = """      ╠═▶ [\033[1mSelect An Option\033[0m] ➳
       ╠═▶ 1. Single Music Mp3 ⏬ 🎶
-      ╠═▶ 2. Single Video ⏬ 🎥(detailed quailty & size but slow fetch)
+      ╠═▶ 2. Single Video ⏬ 🎥 (detailed quality & size but slow fetch)
       ╠═▶ 3. Multiple videos ⏬ 🎥
       ╠═▶ 4. Multiple audios ⏬ 🎶  
       ╠═▶ 5. Exit YTConverter"""
