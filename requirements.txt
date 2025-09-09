@@ -2,3 +2,4 @@ yt-dlp
 fontstyle
 colored
 httpx
+fontstyle
