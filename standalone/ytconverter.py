@@ -54,9 +54,10 @@ except ImportError:
     print("\nInstalling required system packages...\n")
 
     try:
+        print("\nTrying to install system packages assuming termux...\n")
         s.run(["pkg", "install", "-y", "ffmpeg", "yt-dlp"], check=True)
     except s.CalledProcessError as e:
-        print(f"Error installing system packages: {e}")
+        print("Error installing system packages assuming it to be termux:")
 
         if os.path.exists("install.sh"):
             print("Attempting to run install.sh...")
