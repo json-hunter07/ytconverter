@@ -10,7 +10,7 @@
 </p>
 
 ---
-> **Preface (optional):** A subtle reflection before diving into the technical details.
+> **Preface (optional):** A subtle reflection before diving into the technical details, feel free to skip to main content.
 
 |                                                                 |
 |-----------------------------------------------------------------|
