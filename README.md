@@ -26,9 +26,13 @@
 ![file_000000006dfc61fb9c9a2cb865da0157](https://github.com/user-attachments/assets/eadca26f-79a7-4233-90dd-1c850f50a8cc)
 ---
 
-Check the screenshots below👇
-
-
+## Screenshots
+<p align= "left">
+ <img width="1004" height="469" alt="1000122247" src="https://github.com/user-attachments/assets/80269ce0-1443-4dc4-836f-3bf63905879b" />
+</p>
+<p align="left">
+<img src= "https://github.com/user-attachments/assets/8e9d00ce-b698-4b1f-8870-badd5d274442" width="600" height="600"/>
+</p>
 <!--- <p align="centre">
   
   <img src="https://github.com/user-attachments/assets/3f50727f-0927-4b3b-82fa-729c346e66d1" width="600" height ="500" />
@@ -166,14 +170,6 @@ python3 ytconverter.py
 - MacOs
 - Windows 10/11
 
----
-## Screenshots
-<p align= "left">
- <img width="1004" height="469" alt="1000122247" src="https://github.com/user-attachments/assets/80269ce0-1443-4dc4-836f-3bf63905879b" />
-</p>
-<p align="left">
-<img src= "https://github.com/user-attachments/assets/8e9d00ce-b698-4b1f-8870-badd5d274442" width="600" height="600"/>
-</p>
 ---
 
 
