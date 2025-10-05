@@ -9,7 +9,7 @@ echo -------------------------------
 :: ---------------- Paths ----------------
 set "TEMP_DIR=%cd%\installer_temp"
 set "TOOLS_DIR=%LocalAppData%\Programs\YTConverter"
-set "FFMPEG_URL=https://github.com/GyanD/codexffmpeg/releases/download/2025-08-22/ffmpeg-release-essentials.zip"
+set "FFMPEG_URL=https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
 set "FFMPEG_ZIP=%TEMP_DIR%\ffmpeg.zip"
 set "FFMPEG_BIN_DIR="
 
@@ -42,7 +42,7 @@ if %errorlevel%==0 (
     echo ffmpeg already installed in system PATH.
 ) else (
     echo ffmpeg not found. Downloading...
-    powershell -Command "Invoke-WebRequest -Uri '%FFMPEG_URL%' -OutFile '%FFMPEG_ZIP%' -UseBasicParsing"
+    powershell -Command "Invoke-WebRequest -Uri '%FFMPEG_URL%' -OutFile '%FFMPEG_ZIP%'"
     if errorlevel 1 (
         echo ERROR: Failed to download FFmpeg.
         exit /b 1
