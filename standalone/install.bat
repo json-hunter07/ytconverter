@@ -1,42 +1,49 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo * Starting YTConverter installer (venv + PATH fixes)...
+set "TEMP_DIR=%cd%\installer_temp"
+set "FFMPEG_ZIP=%TEMP_DIR%\ffmpeg.zip"
+set "FFMPEG_URL=https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip"
+set "TOOLS_DIR=%LocalAppData%\Programs\YTConverter"
 
-:: ---------------- Helpers ----------------
-:command_exists
-where %1 >nul 2>&1
-exit /b %errorlevel%
+mkdir "%TEMP_DIR%" >nul 2>&1
+mkdir "%TOOLS_DIR%" >nul 2>&1
 
-:die
-echo ERROR: %~1
-if "%~2"=="" (set "CODE=1") else (set "CODE=%~2")
-exit /b %CODE%
-
-:: ---------------- Paths ----------------
-set "REPO_DIR=%cd%"
-set "VENV_DIR=%REPO_DIR%\.venv"
-set "VENV_PY=%VENV_DIR%\Scripts\python.exe"
-set "VENV_PIP=%VENV_DIR%\Scripts\pip.exe"
-
-:: ---------------- System checks ----------------
-echo Checking system dependencies...
-
-call :command_exists python || echo WARNING: Python not found
-echo Python check done.
-
-:: ---------------- Virtual environment ----------------
-if not exist "%VENV_DIR%" (
-  echo Creating virtual environment in .venv...
-  python -m venv "%VENV_DIR%" || echo WARNING: Failed to create venv
-) else (
-  echo Virtual environment already exists.
+echo Checking Python...
+where python >nul 2>&1 || (
+    echo Python not found. Install it from https://www.python.org/downloads/
+    exit /b 1
 )
 
-if not exist "%VENV_PY%" echo WARNING: Virtual environment incomplete
+echo Installing yt-dlp...
+python -m pip install -U yt-dlp >nul 2>&1 || (
+    echo Failed to install yt-dlp.
+    exit /b 1
+)
 
-"%VENV_PY%" -m pip install --upgrade pip
-"%VENV_PIP%" install --upgrade yt-dlp requests colored fontstyle
+echo Checking ffmpeg...
+where ffmpeg >nul 2>&1
+if %errorlevel%==0 (
+    echo ffmpeg already installed.
+) else (
+    echo Downloading ffmpeg...
+    powershell -Command "Invoke-WebRequest -Uri '%FFMPEG_URL%' -OutFile '%FFMPEG_ZIP%'"
+    powershell -Command "Expand-Archive -Path '%FFMPEG_ZIP%' -DestinationPath '%TEMP_DIR%' -Force"
+    for /d %%I in (%TEMP_DIR%\ffmpeg-*) do set "FFMPEG_EXTRACTED=%%I"
+    xcopy /E /I /Y "%FFMPEG_EXTRACTED%\bin" "%TOOLS_DIR%\ffmpeg" >nul
+    echo ffmpeg installed.
+)
 
-echo Installer finished.
+echo Updating PATH...
+for /f "tokens=2*" %%a in ('reg query "HKCU\Environment" /v PATH 2^>nul') do set "OLD_PATH=%%b"
+if not defined OLD_PATH set "OLD_PATH=%PATH%"
+setx PATH "%TOOLS_DIR%\ffmpeg;%OLD_PATH%" >nul
+
+rmdir /S /Q "%TEMP_DIR%" >nul 2>&1
+
+echo Installation complete.
+echo Open a new Command Prompt and run:
+echo yt-dlp --version
+echo ffmpeg -version
+pause
 exit /b 0
