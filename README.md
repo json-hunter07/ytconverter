@@ -47,45 +47,49 @@
 ## 🧩 Installation
 
 ### 🐧 Linux / Termux / macOS
-# Clone the repository
+```bash
 git clone https://github.com/kaifcodec/ytconverter.git
 cd ytconverter/standalone/
-
-# Auto-setup ffmpeg + dependencies
-./install.sh
-
-# (If install.sh fails, install ffmpeg manually)
+./install.sh # Auto-setup ffmpeg + dependencies
+```
+## (If install.sh fails, install ffmpeg manually)
+```bash
 sudo apt install ffmpeg       # Debian/Ubuntu  
 pkg install ffmpeg            # Termux  
 sudo dnf install ffmpeg       # Fedora  
 sudo pacman -S ffmpeg         # Arch
-
-# Install ytconverter from PyPI
+```
+## Install ytconverter from PyPI
+```bash
 pip install ytconverter
-
-# Run the program
 ytconverter -S
-
+```
 
 ### ⚙️ Update
-# Update the repository
+## Update the repository
+```bash
 ./update.sh
-
-# Update PyPI package
+```
+## Update PyPI package
+```bash
 pip install -U ytconverter
 
-
+```
 ### 🪟 Windows
-# Clone the repository
+## Clone the repository
+```bash
 git clone https://github.com/kaifcodec/ytconverter.git
 cd ytconverter/standalone/
-
-# Run installer
+```
+## Run installer
+```bash
 install.bat
-
-# Or manually install ffmpeg and add it to PATH
-# Then run:
+```
+## Or manually install ffmpeg and add it to PATH
+## Then run:
+```bash
 python ytconverter.py
+```
 
 ⚠️ The standalone script is recommended for now.  
 PyPI version is still in beta — report issues on GitHub.
