@@ -3,15 +3,13 @@ import subprocess as sp
 import sys
 from pathlib import Path
 
-from ytconverter.utils import log_handled_exception
-
 
 def ensure_dependencies():
     try:
-        import colored  # noqa: F401
-        import fontstyle  # noqa: F401
-        import httpx  # noqa: F401
-        import yt_dlp  # noqa: F401
+        import colored
+        import fontstyle
+        import httpx
+        import yt_dlp
     except ImportError:
         print("Installing required Python packages...\n")
         try:
@@ -20,7 +18,6 @@ def ensure_dependencies():
             print(f"Error installing Python packages: {e}")
             sys.exit(1)
 
-        # Optional system packages
         print("\nInstalling required system packages...\n")
         try:
             sp.run(["apt", "install", "-y", "ffmpeg", "yt-dlp"])
@@ -41,5 +38,4 @@ def setup_termux_storage():
             if not storage.is_dir() or not os.access(storage, os.W_OK):
                 os.system("termux-setup-storage")
     except Exception as e:
-        log_handled_exception()
         print(f"Outer error: {e}")

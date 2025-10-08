@@ -1,19 +1,3 @@
-#!/usr/bin/env python3
-
-
-# /// script
-# requires-python = ">=3.9"
-# dependencies = [
-#     "colored",
-#     "fontstyle",
-#     "httpx",
-#     "yt-dlp",
-# ]
-# ///
-
-# TODO: Remove the following noqa for all the good reasons mentioned in PEP8.
-# ruff: noqa: E722
-
 import datetime
 import inspect
 import json
@@ -90,114 +74,6 @@ except:
     exit()
 
 
-notice_text = fs.apply("IMPORTANT NOTICE", "/red/bold")
-notice = fs.apply(
-    "We respect your privacy. Any basic info this tool collects (like usage data, usage statistics) is handled securely and used in improving error handling, never shared. \nNo creepy tracking—just good software",
-    "/green/bold",
-)
-tname = fs.apply("WHAT IS YOUR NAME?", "/yellow/bold")
-warning = fs.apply("(ENTER WISELY YOU CAN'T CHANGE IT LATER)", "/red/bold")
-tnum = fs.apply(
-    "ENTER YOUR EMAIL ADDRESS TO STAY UPDATED ABOUT NEW RELEASES (IF YOU'R INTERESTED)",
-    "/cyan/bold",
-)
-
-def dat_collect():
-    script_dir = os.path.dirname(os.path.abspath(__file__))  
-    data_path = os.path.join(script_dir, "data.json")
-    print("THIS IS COMPULSORY FOR THE FIRST TIME\n")  
-    print(notice_text.center(100) + "\n")  
-    print(notice)  
-
-    mm = input("\n" + tname + warning + "⚠⚠ : ")  
-    print("  ")  
-    nn = input(tnum + warning + "⚠⚠ : ")  
-    print("   ")  
-
-    # Write to JSON
-    user_data = {"Name": mm, "Num": nn}
-
-    with open(data_path, "w") as file:
-        json.dump(user_data, file)  # Write the data as JSON
-    return
-  
-
-def import_dat():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.join(script_dir, "data.json") 
-    try:
-        with open(data_path, "r") as file:
-             data = json.load(file)  # Read the JSON file
-             name = data.get("Name", "null") 
-             num = data.get("Num", "null")
-
-    except FileNotFoundError:
-        pass
-    return name, num
-
-try:
-    name, num = import_dat()
-except:
-    try:
-        dat_collect()
-        name, num = import_dat()
-    except Exception:
-        name = "null"
-        num = "null"
-        pass
-
-def log_handled_exception(
-    name=name, num=num, version=current_version+"_"+version_type, logfile="error_logs.txt"
-):
-    function = inspect.stack()[1].function
-    timestamp = datetime.datetime.now().isoformat()
-    name = name or "unknown"
-    num = num or "unknown"
-    # 1. Write full traceback to local .txt file
-    try:
-        with open(logfile, "a") as f:
-            traceback.print_exc(file=f)
-            f.write("\n" + "-" * 80 + "\n")
-    except:
-        pass
-
-    # 2. Send error summary to the backend
-    try:
-        try:
-            ip = httpx.get("https://api.ipify.org").raise_for_status().text
-        except:
-            ip = "Unknown"
-
-        error_type = "UnknownError"
-        error_message = "No message"
-
-        try:
-            exc = traceback.format_exc()
-            last_line = exc.strip().splitlines()[-1]
-            error_type = last_line.split(":")[0]
-            error_message = exc
-        except:
-            pass
-
-        payload = {
-            "name": name,
-            "num": num,
-            "timestamp": timestamp,
-            "error_type": error_type,
-            "error_message": error_message,
-            "function": function,
-            "ip": ip,
-            "version": version,
-        }
-
-        _response = httpx.post(
-            "https://tracker-api-od1b.onrender.com/log-error", json=payload
-        ).raise_for_status()
-    except:
-        pass
-
-
-
 
 print("\n" + fs.apply("Wait just version check is processing...", "/cyan/bold"))
 try:
@@ -221,12 +97,10 @@ try:
                 time.sleep(1)
                 os.system("termux-setup-storage")
         except Exception as e:
-            log_handled_exception()
             print(f"Error: {e}")
     else:
         device = "nontermux"
 except Exception as e:
-    log_handled_exception()
     print(f"Outer error: {e}")
 
 
@@ -245,7 +119,6 @@ try:
         current_version = version_json.get("version")
     except FileNotFoundError:
         current_version = None 
-        log_handled_exception()
     # Compare versions
     if current_version != version_git:
         print("\n" + fs.apply("A new version for the tool is available!", "/cyan/bold"))
@@ -289,7 +162,6 @@ try:
         print(fs.apply("You are using the latest version.", "/green"))
 
 except Exception:
-    log_handled_exception()
     print(
         "\n"
         + fs.apply(
@@ -335,7 +207,6 @@ def bio():
         print(des2)
         print(des3)
     except:
-        log_handled_exception()
         print("file: version.json not found in cwd, run ./update.sh manually")
         print(des1)
         print(des2)
@@ -442,7 +313,6 @@ def main_mp4():
             )
         )
     except Exception as e:
-        log_handled_exception()
         print(fs.apply(f"Error listing formats: {e}", "/red/bold"))
         return
 
@@ -457,14 +327,12 @@ def main_mp4():
             info = ydl.extract_info(url, download=False)
             formats = info.get("formats", [])
     except yt_dlp.utils.DownloadError as e:
-        log_handled_exception()
         print(fs.apply(f"An error occurred: {e}", "/red/bold"))
         return
 
     title_test = sanitize(info.get("title", "Unknown title"))
 
     ###############
-    log_usage(name, num, url, title_test, "video", current_version)
     ###############
     # Display available formats with download size
     print(fs.apply("\nAvailable Formats:\n", "/cyan/bold"))
@@ -515,7 +383,6 @@ def main_mp4():
             else:
                 print(fs.apply("Invalid choice. Try again.", "/red/bold"))
         except ValueError:
-            log_handled_exception()
             print(fs.apply("Enter a valid number.", "/red/bold"))
 
     selected_format_id = selected_format["format_id"]
@@ -557,7 +424,6 @@ def main_mp4():
             print(fs.apply("MP3 audio downloaded successfully.", "/green/bold"))
             audio_downloaded = True
         except Exception as e:
-            log_handled_exception()
             print(fs.apply(f"Error downloading MP3 audio: {e}", "/red/bold"))
             return
 
@@ -578,7 +444,6 @@ def main_mp4():
             ydl.download([url])
         print(fs.apply("Video has been successfully downloaded.", "/green/bold"))
     except Exception as e:
-        log_handled_exception()
         print(fs.apply(f"An error occurred: {e}", "/red/bold"))
         return
 
@@ -597,7 +462,7 @@ def main_mp4():
             # Add a timeout to prevent hanging
             ffmpeg_command = [
                 "ffmpeg",
-                "-y",  # Overwrite output files without asking
+                "-y",
                 "-i",
                 video_path,
                 "-i",
@@ -614,7 +479,6 @@ def main_mp4():
             process = s.Popen(ffmpeg_command, stdout=s.PIPE, stderr=s.PIPE, text=True)
             stdout, stderr = process.communicate(timeout=300)  # Timeout after 5 minutes
 
-            # Check return code
             if process.returncode == 0:
                 print(fs.apply("Audio and video merged successfully.", "/green/bold"))
                 os.remove(video_path)
@@ -623,7 +487,6 @@ def main_mp4():
                 print(fs.apply(f"Error merging audio and video: {stderr}", "/red/bold"))
                 print(fs.apply(f"ffmpeg stdout: {stdout}", "/yellow"))
         except s.TimeoutExpired:
-            log_handled_exception()
             process.kill()
             print(
                 fs.apply(
@@ -632,7 +495,6 @@ def main_mp4():
                 )
             )
         except Exception as e:
-            log_handled_exception()
             print(fs.apply(f"Error merging audio and video: {e}", "/red/bold"))
     else:
         print(fs.apply("No audio merging required.", "/yellow/bold"))
@@ -705,7 +567,6 @@ def main_mp3():
                     else:
                         print(fs.apply("Invalid choice. Try again.", "/red/bold"))
                 except ValueError:
-                    log_handled_exception()
                     print(fs.apply("Enter a valid number.", "/red/bold"))
 
             if choice > 0:
@@ -731,7 +592,6 @@ def main_mp3():
             download_format = "bestaudio/best"
 
     except Exception as e:
-        log_handled_exception()
         print(fs.apply(f"Error fetching audio information: {e}", "/red/bold"))
         print(fs.apply("Downloading best available audio format.", "/yellow/bold"))
         download_format = "bestaudio/best"
@@ -740,16 +600,6 @@ def main_mp3():
     time1 = int(time.time())
 
     destination = get_download_path("mp3")
-
-    log_usage(
-        name,
-        num,
-        url,
-        info_json.get("title", "Unknown Title"),
-        "audio",
-        current_version,
-    )
-
     try:
         s.call(
             [
@@ -766,7 +616,6 @@ def main_mp3():
         )
         print(fs.apply("MP3 audio downloaded successfully.", "/green/bold"))
     except Exception as e:
-        log_handled_exception()
         print(fs.apply(f"An error occurred: {e}", "/red/bold"))
         return
 
@@ -836,7 +685,6 @@ def main_multi_mp4():
                         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                             info = ydl.extract_info(url, download=False)
                     except yt_dlp.utils.DownloadError as e:
-                        log_handled_exception()
                         print(fs.apply(f"An error occurred: {e}", "/red/bold"))
                         return
 
@@ -844,7 +692,7 @@ def main_multi_mp4():
                     time1 = int(time.time())
                     vid_title = sanitize(info["title"])
                     video_path = os.path.join(destination, vid_title)
-                    log_usage(name, num, url, vid_title, f"multi_video_{format_map.get(choice)}", current_version)
+
                     ydl_opts = {
                         "format": format_map.get(choice),
                         "outtmpl": video_path,
@@ -860,7 +708,7 @@ def main_multi_mp4():
                                 )
                             )
                     except Exception as e:
-                        log_handled_exception()
+
                         print(
                             fs.apply(f"Failed to download '{vid_title}': {e}", "/red")
                         )
@@ -875,13 +723,13 @@ def main_multi_mp4():
                     k += 1
             else:
                 print(fs.apply("No url given, skipping download", "/red/bold"))
-            break  # Exit the outer while loop after processing downloads
+            break
 
         elif not url_pattern.match(url):
             print(
                 fs.apply("Invalid URL. Please enter a valid YouTube URL.", "/red/bold")
             )
-            continue  # Go back to the beginning of the loop for a new URL
+            continue
         down_list.append(url)
         i += 1
 
@@ -946,7 +794,6 @@ def main_multi_mp3():
                         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                             info = ydl.extract_info(url, download=False)
                     except yt_dlp.utils.DownloadError as e:
-                        log_handled_exception()
                         print(fs.apply(f"An error occurred: {e}", "/red/bold"))
                         return
 
@@ -954,8 +801,6 @@ def main_multi_mp3():
                     time1 = int(time.time())
                     vid_title = sanitize(info["title"])
                     audio_path = os.path.join(destination, vid_title)
-
-                    log_usage(name, num, url, vid_title, f"multi_audio_{quality_map[choice]}kbps", current_version)
 
                     ydl_opts = {
                         "format": "bestaudio/best",
@@ -979,7 +824,6 @@ def main_multi_mp3():
                                 )
                             )
                     except Exception as e:
-                        log_handled_exception()
                         print(
                             fs.apply(f"Failed to download '{vid_title}': {e}", "/red")
                         )
@@ -1015,38 +859,6 @@ def filesize_format(size):
 ################
 
 
-def log_usage(name, num, video_url, video_title, action, current_version):
-    try:
-        ip = httpx.get("https://api.ipify.org").raise_for_status().text
-    except:
-        log_handled_exception()
-        ip = "Unknown"
-        pass
-    payload = {
-        "name": name,
-        "video": video_url,
-        "title": video_title,
-        "ip": ip,
-        "contact": num,
-        "action": action,
-        "version": current_version+"_"+version_type,
-    }
-
-    try:
-        _response = httpx.post(
-            "https://tracker-api-od1b.onrender.com/log-download",
-            json=payload,
-            headers={"Content-Type": "application/json"},
-        ).raise_for_status()
-    except Exception as e:
-        log_handled_exception()
-        print(e)
-        time.sleep(3)
-        pass
-
-
-##############################
-
 
 def main():
     if option == "1":
@@ -1074,7 +886,6 @@ try:
     os.system("clear")
     os.system("rm -r -f __pycache__ ")
 except:
-    log_handled_exception()
     pass
 
 

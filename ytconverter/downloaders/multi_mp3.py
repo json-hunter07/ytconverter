@@ -9,8 +9,6 @@ from ytconverter.constants import URL_RE
 from ytconverter.utils import (
     apply_style,
     get_download_path,
-    log_handled_exception,
-    log_usage,
     sanitize,
 )
 
@@ -81,26 +79,13 @@ def run():
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=False)
         except yt_dlp.utils.DownloadError as e:
-            try:
-               log_handled_exception()
-            except:
-               pass
+            pass
             print(apply_style(f"An error occurred: {e}", "/red/bold"))
             continue
 
         vid_title = sanitize(info["title"])
         print(apply_style(f"\nStarting Audio {k} Download...\n", "/cyan/bold"))
         time1 = int(time.time())
-        try:
-           log_usage(
-               url,
-               vid_title,
-               f"multi_audio_{quality_map[choice]}kbps",
-               load_local_version(),
-           )
-        except:
-          pass
-
         ydl_opts = {
             "format": "bestaudio/best",
             "outtmpl": str(destination / f"{vid_title}.%(ext)s"),
@@ -117,10 +102,7 @@ def run():
                 ydl.download([url])
             print(apply_style("Audio has been successfully downloaded.", "/green/bold"))
         except Exception as e:
-            try:
-               log_handled_exception()
-            except:
-               pass
+            pass
             print(apply_style(f"Failed to download '{vid_title}': {e}", "/red"))
             continue
 

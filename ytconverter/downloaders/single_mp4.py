@@ -8,7 +8,7 @@ from pathlib import Path
 import yt_dlp
 
 from ytconverter.constants import URL_RE
-from ytconverter.utils import get_download_path, log_handled_exception, log_usage, sanitize
+from ytconverter.utils import get_download_path, sanitize
 
 
 def run():
@@ -39,10 +39,7 @@ def run():
             )
         print(stdout.decode("utf-8", errors="replace"))
     except Exception as e:
-        try:
-           log_handled_exception()
-        except:
-           pass
+        pass
         print(f"\033[31;1mError listing formats: {e}\033[0m")
         return
 
@@ -52,19 +49,11 @@ def run():
             info = ydl.extract_info(url, download=False)
             formats = info.get("formats", [])
     except yt_dlp.utils.DownloadError as e:
-        try:
-           log_handled_exception()
-        except:
-           pass
+        pass
         print(f"\033[31;1mAn error occurred: {e}\033[0m")
         return
 
     title = sanitize(info.get("title", "Unknown title"))
-    try:
-       log_usage(url, title, "video", load_local_version())
-
-    except:
-       pass
 
     # Display formats with size
     for idx, fmt in enumerate(formats, 1):
@@ -103,10 +92,6 @@ def run():
                 break
             print("\033[31;1mInvalid choice.\033[0m")
         except ValueError:
-            try:
-               log_handled_exception()
-            except:
-               pass
             print("\033[31;1mEnter a valid number.\033[0m")
 
     selected_id = selected["format_id"]
@@ -144,10 +129,6 @@ def run():
                 print("\033[31;1mAudio file not found.\033[0m")
                 return
         except Exception as e:
-            try:
-               log_handled_exception()
-            except:
-               pass
             print(f"\033[31;1mError downloading audio: {e}\033[0m")
             return
 
@@ -160,10 +141,6 @@ def run():
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
     except Exception as e:
-        try:
-           log_handled_exception()
-        except:
-           pass
         print(f"\033[31;1mDownload error: {e}\033[0m")
         return
     t1 = int(time.time())
@@ -192,10 +169,6 @@ def run():
             Path(audio_path).unlink()
             merged.rename(video_out)
         except Exception as e:
-            try:
-               log_handled_exception()
-            except:
-               pass
             print(f"\033[31;1mMerge error: {e}\033[0m")
             return
         print("\033[32;1mMerge complete.\033[0m")

@@ -1,6 +1,6 @@
 ## YTConverter™
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-4.0.1-blueviolet?style=for-the-badge&logo=github" />
+  <img src="https://img.shields.io/badge/Version-4.0.2-blueviolet?style=for-the-badge&logo=github" />
   <img src="https://img.shields.io/github/forks/kaifcodec/ytconverter?style=for-the-badge&logo=git" />
   <img src="https://img.shields.io/github/stars/kaifcodec/ytconverter?style=for-the-badge&logo=github" />
   <img src="https://img.shields.io/github/issues/kaifcodec/ytconverter?style=for-the-badge&logo=github" />
@@ -36,10 +36,6 @@
 <p align="left">
 <img src= "https://github.com/user-attachments/assets/8e9d00ce-b698-4b1f-8870-badd5d274442" width="600" height="600"/>
 </p>
-<!--- <p align="centre">
-  
-  <img src="https://github.com/user-attachments/assets/3f50727f-0927-4b3b-82fa-729c346e66d1" width="600" height ="500" />
-</p> --->
 
 ---
 
@@ -48,7 +44,52 @@
 - Required Python libraries (listed in `requirements.txt`)
 - ffmpeg & yt-dlp binary
 
+## 🧩 Installation
 
+### 🐧 Linux / Termux / macOS
+# Clone the repository
+git clone https://github.com/kaifcodec/ytconverter.git
+cd ytconverter/standalone/
+
+# Auto-setup ffmpeg + dependencies
+./install.sh
+
+# (If install.sh fails, install ffmpeg manually)
+sudo apt install ffmpeg       # Debian/Ubuntu  
+pkg install ffmpeg            # Termux  
+sudo dnf install ffmpeg       # Fedora  
+sudo pacman -S ffmpeg         # Arch
+
+# Install ytconverter from PyPI
+pip install ytconverter
+
+# Run the program
+ytconverter -S
+
+
+### ⚙️ Update
+# Update the repository
+./update.sh
+
+# Update PyPI package
+pip install -U ytconverter
+
+
+### 🪟 Windows
+# Clone the repository
+git clone https://github.com/kaifcodec/ytconverter.git
+cd ytconverter/standalone/
+
+# Run installer
+install.bat
+
+# Or manually install ffmpeg and add it to PATH
+# Then run:
+python ytconverter.py
+
+⚠️ The standalone script is recommended for now.  
+PyPI version is still in beta — report issues on GitHub.
+---
 
 ## Tested on
 - Linux

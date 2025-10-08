@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 from ytconverter.cli.banner import print_banner, des4
-from ytconverter.config import load_local_version, save_user_data
+from ytconverter.config import load_local_version
 from ytconverter.core.bootstrap import ensure_dependencies, setup_termux_storage
 from ytconverter.utils.update import update_self
 from ytconverter.core.version import check_version
@@ -26,42 +26,6 @@ if remote and local != remote:
     if choice in {"y", ""}:
         update_self()
         exit()
-
-# First-run data collection
-from ytconverter.config import load_user_data as _lud
-
-def user_data_collect(name_lud, num_lud):
- if name_lud is None:
-     import getpass
-
-     notice_text = apply_style("IMPORTANT NOTICE", "/red/bold")
-     notice = apply_style(
-        "We respect your privacy. Any basic info this tool collects "
-        "(like usage data, usage statistics) is handled securely and used in "
-        "improving error handling, never shared. "
-        "\nNo creepy tracking—just good software",
-        "/green/bold",
-     )
-     tname = apply_style("WHAT IS YOUR NAME?", "/yellow/bold")
-     tnum = apply_style(
-        "ENTER YOUR EMAIL ADDRESS TO STAY UPDATED ABOUT NEW RELEASES "
-        "(IF YOU'RE INTERESTED)",
-        "/cyan/bold",
-     )
-     warning = apply_style("(ENTER WISELY YOU CAN'T CHANGE IT LATER)", "/red/bold")
-
-     print("\nTHIS IS COMPULSORY FOR THE FIRST TIME\n")
-     print(notice_text.center(100) + "\n")
-     print(notice)
-     name = input("\n" + tname + warning + " ⚠⚠ : ").strip()
-     print()
-     num = input(tnum + warning + " ⚠⚠ : ").strip()
-     save_user_data(name, num)
-     # name, num = _lud()
-     # return name, num
- else:
-     pass
- # name, num = _lud()
 
 def main_loop():
     while True:
@@ -89,12 +53,5 @@ def main_loop():
         )
         input(exitc)
 
-
-
-name, num =_lud()
-if name is None:
-  user_data_collect(name, num)
-else:
-  pass
 
 

@@ -6,7 +6,7 @@ from pathlib import Path
 import yt_dlp
 
 from ytconverter.constants import URL_RE
-from ytconverter.utils import get_download_path, log_usage, sanitize
+from ytconverter.utils import get_download_path, sanitize
 
 
 def run():
@@ -61,10 +61,6 @@ def run():
 
     dest = Path(get_download_path("mp3"))
     title = sanitize(info_json.get("title", "Unknown"))
-    try:
-       log_usage(url, title, "audio", load_local_version())
-    except:
-       pass
 
     t0 = int(time.time())
     sp.run(
