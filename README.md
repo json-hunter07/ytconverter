@@ -4,8 +4,8 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-4.0.2-blueviolet?style=for-the-badge&logo=github" />
-  <img src="https://img.shields.io/github/forks/kaifcodec/ytconverter?style=for-the-badge&logo=git" />
-  <img src="https://img.shields.io/github/stars/kaifcodec/ytconverter?style=for-the-badge&logo=github" />
+<!--  <img src="https://img.shields.io/github/forks/kaifcodec/ytconverter?style=for-the-badge&logo=git" />
+  <img src="https://img.shields.io/github/stars/kaifcodec/ytconverter?style=for-the-badge&logo=github" /> -->
   <img src="https://img.shields.io/github/issues/kaifcodec/ytconverter?style=for-the-badge&logo=github" />
   <img src="https://img.shields.io/badge/Status-Stable-brightgreen?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Tested%20on-Termux-black?style=for-the-badge&logo=termux" />
