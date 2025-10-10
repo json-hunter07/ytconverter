@@ -68,13 +68,11 @@ ytconverter -S
 ```
 
 ## ⚙️ Update
-### Update the repository
+### Update ytconverter
 ```bash
-./update.sh
-```
-### Update PyPI package
-```bash
-ytconverter -U
+./update.sh # update to new repo, new yt-dlp version 
+
+ytconverter -U # pypi package 
 
 ```
 ## 🪟 Windows
@@ -86,7 +84,7 @@ install.bat # Or manually install ffmpeg and add it to PATH
 ```
 ### Then run:
 ```bash
-python ytconverter.py
+python3 ytconverter.py
 ```
 
 ⚠️ The standalone script is recommended for now.  
